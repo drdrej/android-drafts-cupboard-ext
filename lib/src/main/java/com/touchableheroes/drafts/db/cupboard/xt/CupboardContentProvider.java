@@ -8,10 +8,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
 
+import com.touchableheroes.drafts.core.tools.EnumTool;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.CupboardContract;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.CupboardLoaderContract;
 
+
+
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
+
+//import static nl
 
 /**
  * Created by asiebert on 28.02.16.
@@ -52,6 +57,7 @@ public class CupboardContentProvider extends ContentProvider {
     }
 
     private synchronized static void initUriMatcher() {
+/*
         if (sMatcher != null) return;
 
         sMatcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -61,6 +67,9 @@ public class CupboardContentProvider extends ContentProvider {
                 .annotation(CupboardContract.class);
 
         registerUri(contract, LoaderIDs.CURRENT_TRACK);
+        */
+
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -100,7 +109,8 @@ public class CupboardContentProvider extends ContentProvider {
 
     private Class findByMatchId(final int matchId) {
         // TODO: anhand der Id aus der Enum die passende CupbaseResourceContract finden.
-        return TrackEntity.class;
+        // return entity.class;
+        return Object.class; // TrackEntity.class;
 
         /*
         default:
