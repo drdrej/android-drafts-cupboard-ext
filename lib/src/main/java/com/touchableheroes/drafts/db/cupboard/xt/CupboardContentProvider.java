@@ -7,11 +7,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
-import com.touchableheroes.drafts.cupboard.xt.contracts.CupboardContract;
-import com.touchableheroes.drafts.cupboard.xt.contracts.CupboardLoaderContract;
-import com.touchableheroes.drafts.mr.blackbox.db.entities.TrackEntity;
-import com.touchableheroes.drafts.mr.blackbox.semantics.LoaderIDs;
-import com.touchableheroes.drafts.tools.EnumTool;
+
+import com.touchableheroes.drafts.db.cupboard.xt.contracts.CupboardContract;
+import com.touchableheroes.drafts.db.cupboard.xt.contracts.CupboardLoaderContract;
 
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
