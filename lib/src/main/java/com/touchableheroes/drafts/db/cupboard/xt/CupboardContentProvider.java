@@ -16,12 +16,12 @@ import com.touchableheroes.drafts.db.cupboard.xt.contracts.CupboardLoaderContrac
 
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
-//import static nl
-
 /**
  * Created by asiebert on 28.02.16.
  */
-public class CupboardContentProvider extends ContentProvider {
+public abstract class CupboardContentProvider extends ContentProvider {
+
+    private final DbConfig config;
 
     private CupboardSQLiteDBHelper mDatabaseHelper;
 
@@ -29,6 +29,9 @@ public class CupboardContentProvider extends ContentProvider {
 
     private static final Object LOCK = new Object();
 
+    public CupboardContentProvider( final DbConfig config ) {
+       this.config = config;
+    }
 
     @Override
     public boolean onCreate() {
@@ -39,8 +42,7 @@ public class CupboardContentProvider extends ContentProvider {
     }
 
     private void initDB() {
-        // TODO: hier die typen (Entities - register) Parametrisieren!
-        mDatabaseHelper = new CupboardSQLiteDBHelper(getContext());
+        mDatabaseHelper = new CupboardSQLiteDBHelper(getContext(), config);
     }
 
     private static void registerUri(

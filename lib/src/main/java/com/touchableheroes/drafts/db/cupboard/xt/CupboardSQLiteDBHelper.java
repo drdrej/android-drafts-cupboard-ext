@@ -12,19 +12,25 @@ import static nl.qbusict.cupboard.CupboardFactory.cupboard;
  */
 public class CupboardSQLiteDBHelper extends SQLiteOpenHelper {
 
-    // TODO: diese Stellen müssen verallgemeinert werden.
-    private static final String DATABASE_NAME = "mr.example.db";
-    private static final int DATABASE_VERSION = 3;
+    private final DbConfig config;
 
-    static {
-        // example: register entities?
-        /* cupboard().register(TrackEntity.class); */
-        /* cupboard().register(EndpointEntity.class); */
+    public CupboardSQLiteDBHelper(final Context ctx,
+                                  final DbConfig config) {
+        super(ctx, config.name(), null, config.version());
+
+        this.config = config;
     }
 
-    public CupboardSQLiteDBHelper(Context ctx) {
-        // todo: remove hardcoded part.
-        super(ctx, DATABASE_NAME, null, DATABASE_VERSION);
+    @Override
+    public void onConfigure(final SQLiteDatabase db) {
+        bindEntities( );
+        super.onConfigure(db);
+    }
+
+    private void bindEntities() {
+        for( final Class<?> entity : config.entities() ) {
+            cupboard().register( entity );
+        }
     }
 
     @Override
@@ -39,6 +45,7 @@ public class CupboardSQLiteDBHelper extends SQLiteOpenHelper {
         cupboard().withDatabase(db).dropAllTables();
         cupboard().withDatabase(db).createTables();
 
+        // prod mode:
         // cupboard().withDatabase(db).upgradeTables();
     }
 

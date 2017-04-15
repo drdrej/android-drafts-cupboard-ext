@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">cupboard-ext</string>
+
+    <string name="db.name">example-db</string>
+    <string name="db.version">1</string>
+
 </resources>
