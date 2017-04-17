@@ -2,17 +2,13 @@ package com.touchableheroes.drafts.db.cupboard.xt.loader;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 
 //import com.touchableheroes.drafts.cupboard.xt.contracts.ContractUriUtil;
 //import com.touchableheroes.drafts.cupboard.xt.contracts.CupboardLoaderContract;
 //import com.touchableheroes.drafts.mr.blackbox.semantics.LoaderIDs;
 
-import com.touchableheroes.drafts.db.cupboard.xt.LoaderIDs;
-import com.touchableheroes.drafts.db.cupboard.xt.contracts.ContractUriUtil;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.CupboardLoaderContract;
 
 import java.lang.reflect.Field;
