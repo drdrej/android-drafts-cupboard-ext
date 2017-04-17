@@ -58,21 +58,20 @@ public abstract class CupboardContentProvider extends ContentProvider {
         sMatcher.addURI( "content://" + contract.authority(), dbResource.path(), state.ordinal());
     }
 
-    private synchronized static void initUriMatcher() {
-/*
-        if (sMatcher != null) return;
+    protected abstract /* synchronized */ void initUriMatcher();
+        /*
+        if (sMatcher != null)
+            return;
 
         sMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
         final CupboardContract contract
-                = EnumTool.withEnum(LoaderIDs.class)
+                = EnumTool.withEnum(LoaderI.class)
                 .annotation(CupboardContract.class);
 
         registerUri(contract, LoaderIDs.CURRENT_TRACK);
         */
 
-        throw new UnsupportedOperationException();
-    }
 
     @Override
     public Cursor query(final Uri uri,
