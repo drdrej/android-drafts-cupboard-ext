@@ -21,13 +21,9 @@ public class CupboardSQLiteDBHelper extends SQLiteOpenHelper {
         super(ctx, config.name(), null, config.version());
 
         this.config = config;
+        bindEntities();
     }
 
-    @Override
-    public void onConfigure(final SQLiteDatabase db) {
-        bindEntities( );
-        super.onConfigure(db);
-    }
 
     private void bindEntities() {
         for( final Class<?> entity : config.entities() ) {
@@ -36,12 +32,7 @@ public class CupboardSQLiteDBHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
-        for ( final Class<?> entity : config.entities()) {
-            cupboard().register( entity );
-        }
-
-//        cupboard().withDatabase(db).dropAllTables();
+    public void onCreate(final SQLiteDatabase db) {
         cupboard().withDatabase(db).createTables();
     }
 
