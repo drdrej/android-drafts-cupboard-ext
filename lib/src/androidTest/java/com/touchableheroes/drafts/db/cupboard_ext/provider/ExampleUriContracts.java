@@ -10,6 +10,11 @@ public enum ExampleUriContracts {
 
     @UriMatcherContract(
             type = ExampleEntity.class,
+            path = "/entity" )
+    ENTITY_BY_ID,
+
+    @UriMatcherContract(
+            type = ExampleEntity.class,
             path = "/all" )
     ALL_ENTITIES
 

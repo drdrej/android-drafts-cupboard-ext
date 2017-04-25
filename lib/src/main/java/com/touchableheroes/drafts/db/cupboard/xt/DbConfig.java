@@ -12,7 +12,6 @@ import java.util.List;
 /**
  * Created by asiebert on 15.04.2017.
  */
-
 public class DbConfig {
 
     private final String name;
