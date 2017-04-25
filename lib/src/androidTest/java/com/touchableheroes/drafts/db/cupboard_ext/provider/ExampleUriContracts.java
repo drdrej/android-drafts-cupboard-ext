@@ -1,4 +1,4 @@
-package com.touchableheroes.drafts.db.cupboard_ext;
+package com.touchableheroes.drafts.db.cupboard_ext.provider;
 
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContract;
 

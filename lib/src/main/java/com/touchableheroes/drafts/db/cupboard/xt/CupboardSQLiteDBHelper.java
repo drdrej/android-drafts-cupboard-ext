@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 
+import java.util.Iterator;
+
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
 /**
@@ -35,7 +37,11 @@ public class CupboardSQLiteDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        cupboard().withDatabase(db).dropAllTables();
+        for ( final Class<?> entity : config.entities()) {
+            cupboard().register( entity );
+        }
+
+//        cupboard().withDatabase(db).dropAllTables();
         cupboard().withDatabase(db).createTables();
     }
 

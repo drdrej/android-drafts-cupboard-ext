@@ -21,7 +21,6 @@ public class DbConfig {
 
     private final Class<? extends Enum> uriContracts;
 
-
     public DbConfig(final String name,
                     final int version,
                     final Class<?>[] entities,
@@ -49,4 +48,12 @@ public class DbConfig {
         final EnumSet values = EnumSet.allOf(uriContracts);
         return values.iterator();
     }
+
+    public Enum uriById(final int uriId) {
+        final EnumSet values = EnumSet.allOf(uriContracts);
+        final Object[] objects = values.toArray();
+
+        return (Enum) objects[ uriId ];
+    }
+
 }

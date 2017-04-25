@@ -1,10 +1,13 @@
-package com.touchableheroes.drafts.db.cupboard_ext;
+package com.touchableheroes.drafts.db.cupboard_ext.provider;
 
 import android.content.ContentProvider;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.ProviderTestCase2;
+import android.test.mock.MockContext;
 
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.ContractUriUtil;
 import com.touchableheroes.drafts.db.cupboard.xt.loader.UriTemplate;
@@ -12,9 +15,6 @@ import com.touchableheroes.drafts.db.cupboard.xt.loader.UriTemplate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import nl.qbusict.cupboard.Cupboard;
-import nl.qbusict.cupboard.CupboardFactory;
 
 /**
  * Created by asiebert on 25.04.2017.
@@ -31,9 +31,18 @@ public class ExampleCupboardContentProviderTest
     public void setUp() throws Exception {
         super.setUp();
 
-        // ContentProvider provider = getProvider();
+        Context ctx = InstrumentationRegistry.getTargetContext();
+        setContext(ctx);
+
+        ExampleCupboardContentProvider provider = getProvider();
+        provider.onCreate();
     }
 
+    @Override
+    public Context getContext() {
+        // return super.getContext();
+        return InstrumentationRegistry.getTargetContext();
+    }
 
     @Test
     public void testQuery(){

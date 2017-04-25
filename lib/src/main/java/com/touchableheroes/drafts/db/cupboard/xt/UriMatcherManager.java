@@ -34,6 +34,7 @@ public class UriMatcherManager {
         System.out.println("--> registerUri: " + ("content://" + contract.authority()) + " path = " + dbResource.path());
 
         final String host = "content://" + contract.authority();
+
         matcher.addURI( host, dbResource.path(), state.ordinal());
     }
 

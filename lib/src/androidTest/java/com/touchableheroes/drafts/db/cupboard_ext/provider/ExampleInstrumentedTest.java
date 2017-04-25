@@ -1,4 +1,4 @@
-package com.touchableheroes.drafts.db.cupboard_ext;
+package com.touchableheroes.drafts.db.cupboard_ext.provider;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

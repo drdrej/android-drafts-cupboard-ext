@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
 
+import com.touchableheroes.drafts.core.tools.EnumTool;
+import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContract;
+
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
 /**
@@ -83,14 +86,10 @@ public abstract class CupboardContentProvider extends ContentProvider {
     }
 
     private Class findByMatchId(final int matchId) {
-        // TODO: anhand der Id aus der Enum die passende CupbaseResourceContract finden.
-        // return entity.class;
-        return Object.class; // TrackEntity.class;
+        final Enum uri = getConfig().uriById(matchId);
+        final UriMatcherContract contract = EnumTool.withEnum(uri).annotation(UriMatcherContract.class);
 
-        /*
-        default:
-                    throw new IllegalArgumentException("Unknown URI: " + uri);
-         */
+        return contract.type();
     }
 
     @Override
