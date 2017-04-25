@@ -1,7 +1,12 @@
 package com.touchableheroes.drafts.db.cupboard.xt;
 
+import com.touchableheroes.drafts.core.tools.EnumTool;
 import com.touchableheroes.drafts.db.cupboard_ext.R;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -14,13 +19,18 @@ public class DbConfig {
     private final int version;
     private final Iterable<Class<?>> entities;
 
+    private final Class<? extends Enum> uriContracts;
+
 
     public DbConfig(final String name,
                     final int version,
-                    final List<Class<?>> entities) {
+                    final Class<?>[] entities,
+                    final Class<? extends Enum> uriContracts) {
         this.name = name;
         this.version = version;
-        this.entities = entities;
+        this.entities = Arrays.asList(entities);
+
+        this.uriContracts = uriContracts;
     }
 
     public String name() {
@@ -33,5 +43,10 @@ public class DbConfig {
 
     public Iterable<Class<?>> entities() {
         return this.entities;
+    }
+
+    public Iterator<Enum> uris () {
+        final EnumSet values = EnumSet.allOf(uriContracts);
+        return values.iterator();
     }
 }

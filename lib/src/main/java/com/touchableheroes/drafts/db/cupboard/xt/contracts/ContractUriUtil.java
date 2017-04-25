@@ -10,7 +10,9 @@ import com.touchableheroes.drafts.db.cupboard.xt.loader.UriTemplate;
  */
 public class ContractUriUtil {
 
-    public static Uri uri(final CupboardContract contract, final CupboardLoaderContract paragraph) {
+    /*
+    @Deprecated
+    public static Uri uri(final CupboardContract contract, final UriMatcherContract paragraph) {
         final String preDefUri = uriStr(contract, paragraph);
 
         System.out.print( "--> uri encode: " + preDefUri );
@@ -18,15 +20,19 @@ public class ContractUriUtil {
         return Uri.parse(preDefUri);
     }
 
-    public static String  uriStr(final CupboardContract contract, final CupboardLoaderContract paragraph) {
+    @Deprecated
+    public static String  uriStr(final CupboardContract contract, final UriMatcherContract paragraph) {
         return "content://" + contract.authority() + paragraph.path();
     }
+    */
 
-    public static UriTemplate uriByState(final Enum loaderId) {
-        final CupboardContract contract = EnumTool.withEnum(loaderId).onType().annotation(CupboardContract.class);
-        final CupboardLoaderContract paragraph = EnumTool.withEnum(loaderId).annotation(CupboardLoaderContract.class);
+    public static String  uriStr(final Enum uri, final UriMatcherContract paragraph) {
+        return "content://" + uri.getClass().getName() + paragraph.path();
+    }
 
-        return new UriTemplate( uriStr(contract, paragraph) );
+    public static UriTemplate uriByState(final Enum uri) {
+        final UriMatcherContract paragraph = EnumTool.withEnum( uri ).annotation(UriMatcherContract.class);
+        return new UriTemplate(uriStr(uri, paragraph));
     }
 
 }

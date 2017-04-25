@@ -6,10 +6,10 @@ import android.os.Bundle;
 import android.support.v4.content.Loader;
 
 //import com.touchableheroes.drafts.cupboard.xt.contracts.ContractUriUtil;
-//import com.touchableheroes.drafts.cupboard.xt.contracts.CupboardLoaderContract;
+//import com.touchableheroes.drafts.cupboard.xt.contracts.UriMatcherContract;
 //import com.touchableheroes.drafts.mr.blackbox.semantics.LoaderIDs;
 
-import com.touchableheroes.drafts.db.cupboard.xt.contracts.CupboardLoaderContract;
+import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContract;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -73,7 +73,7 @@ public abstract class CupboardLoaderCallback<T extends Enum<T>, R>
         throw new UnsupportedOperationException();
     }
 
-    protected String[] projection(final CupboardLoaderContract def) {
+    protected String[] projection(final UriMatcherContract def) {
         final List<String> names = new ArrayList<>();
 
         for( final Field field : def.type().getFields() ) {

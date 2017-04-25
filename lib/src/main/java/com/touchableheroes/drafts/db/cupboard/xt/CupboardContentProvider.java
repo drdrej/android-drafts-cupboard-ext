@@ -2,16 +2,9 @@ package com.touchableheroes.drafts.db.cupboard.xt;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
-import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-
-
-import com.touchableheroes.drafts.core.tools.EnumTool;
-import com.touchableheroes.drafts.db.cupboard.xt.contracts.CupboardContract;
-import com.touchableheroes.drafts.db.cupboard.xt.contracts.CupboardLoaderContract;
-
 
 
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
@@ -25,7 +18,7 @@ public abstract class CupboardContentProvider extends ContentProvider {
 
     private CupboardSQLiteDBHelper mDatabaseHelper;
 
-    private static UriMatcher sMatcher;
+    private UriMatcherManager matcherMgr = new UriMatcherManager();
 
     private static final Object LOCK = new Object();
 
@@ -36,7 +29,7 @@ public abstract class CupboardContentProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         initDB();
-        initUriMatcher();
+        initUriMatcher(matcherMgr);
 
         return true;
     }
@@ -45,33 +38,14 @@ public abstract class CupboardContentProvider extends ContentProvider {
         mDatabaseHelper = new CupboardSQLiteDBHelper(getContext(), config);
     }
 
-    private static void registerUri(
-            final CupboardContract contract,
-            final Enum state) {
-        System.out.println( "--> registerUri: " + contract + " / " + state);
-
-        final CupboardLoaderContract dbResource = EnumTool.withEnum(state)
-                .annotation(CupboardLoaderContract.class);
-
-        System.out.println("--> registerUri: " + ("content://" + contract.authority()) + " path = " + dbResource.path());
-
-        sMatcher.addURI( "content://" + contract.authority(), dbResource.path(), state.ordinal());
+    protected void initUriMatcher(
+            final UriMatcherManager matcherMgr) {
+        matcherMgr.registerUris( getConfig() );
     }
 
-    protected abstract /* synchronized */ void initUriMatcher();
-        /*
-        if (sMatcher != null)
-            return;
-
-        sMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-
-        final CupboardContract contract
-                = EnumTool.withEnum(LoaderI.class)
-                .annotation(CupboardContract.class);
-
-        registerUri(contract, LoaderIDs.CURRENT_TRACK);
-        */
-
+    public DbConfig getConfig() {
+        return config;
+    }
 
     @Override
     public Cursor query(final Uri uri,
@@ -98,7 +72,7 @@ public abstract class CupboardContentProvider extends ContentProvider {
 
         final SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
 
-        final int matchId = sMatcher.match(uri);
+        final int matchId = matcherMgr.match(uri);
         final Class clz = findByMatchId(matchId);
 
         return cupboard().withDatabase(db).query(clz).
@@ -156,7 +130,7 @@ public abstract class CupboardContentProvider extends ContentProvider {
     private Uri doInsert(Uri uri, ContentValues values) {
         final SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
 
-        final int matchId = sMatcher.match(uri);
+        final int matchId = matcherMgr.match(uri);
         final Class type = findByMatchId(matchId);
 
         // TODO: hier prüfen, wie allgemein das ist:::
