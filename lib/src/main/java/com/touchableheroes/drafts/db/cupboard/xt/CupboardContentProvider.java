@@ -73,6 +73,7 @@ public abstract class CupboardContentProvider extends ContentProvider {
             final String selection, final String[] selectionArgs,
             final String sortOrder) {
 
+
         final SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
 
         final int matchId = matcherMgr.match(uri);
@@ -85,15 +86,19 @@ public abstract class CupboardContentProvider extends ContentProvider {
                 getCursor();
     }
 
+    public Enum findEnum(final int matchId) {
+        return getConfig().uriById(matchId);
+    }
+
     private Class findByMatchId(final int matchId) {
-        final Enum uri = getConfig().uriById(matchId);
+        final Enum uri = findEnum(matchId);
         final UriMatcherContract contract = EnumTool.withEnum(uri).annotation(UriMatcherContract.class);
 
         return contract.type();
     }
 
     @Override
-    public String getType(Uri uri) {
+    public String getType(final Uri uri) {
         /**
          * The mime type of a directory of items.
          */
