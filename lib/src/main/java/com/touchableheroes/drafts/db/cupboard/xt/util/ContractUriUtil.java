@@ -57,4 +57,13 @@ public class ContractUriUtil {
 */
     }
 
+
+    public static Uri createQuery(final Enum uri) {
+        final EnumTool.EnumWrapper enumWrapper = EnumTool.withEnum( uri );
+        final UriMatcherContract def = enumWrapper.annotation(UriMatcherContract.class);
+
+        final Uri rval = ContractUriUtil.uriByState(uri).create();
+
+        return rval;
+    }
 }

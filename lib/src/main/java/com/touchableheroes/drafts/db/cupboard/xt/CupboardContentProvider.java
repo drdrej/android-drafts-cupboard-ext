@@ -37,20 +37,11 @@ public abstract class CupboardContentProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         synchronized( LOCK ) {
-            initDB();
-            initUriMatcher(matcherMgr);
+            dbHelper = new CupboardSQLiteDBHelper(getContext(), config);
+            matcherMgr.registerUris( getConfig() );
 
             return true;
         }
-    }
-
-    private void initDB() {
-        dbHelper = new CupboardSQLiteDBHelper(getContext(), config);
-    }
-
-    protected void initUriMatcher(
-            final UriMatcherManager matcherMgr) {
-        matcherMgr.registerUris( getConfig() );
     }
 
     public DbConfig getConfig() {
@@ -81,54 +72,10 @@ public abstract class CupboardContentProvider extends ContentProvider {
                         selectionArgs,
                         sortOrder);
             } catch (final Throwable x) {
-                throw new IllegalStateException( "Couldn't initialize and execute DbCommand.",  x);
+                throw new IllegalStateException("Couldn't initialize and execute DbCommand.", x);
             }
-                /*
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            }
-            */
-
-
-            //Class byMatchId = findByMatchId(matchId);
-/*
-            final Cursor cursor = doQuery(uri, projection, selection, selectionArgs, sortOrder);
-
-            int count = cursor.getCount();
-
-            System.out.println( "--> LOAD CURSOR.size = " + count);
-
-            return cursor;
-            */
         }
     }
-
-    /*
-    private Cursor doQuery(
-            final Uri uri,
-            final String[] projection,
-            final String selection, final String[] selectionArgs,
-            final String sortOrder) {
-
-
-        final SQLiteDatabase db = dbHelper.getReadableDatabase();
-
-        final int matchId = matcherMgr.match(uri);
-        final Class clz = findByMatchId(matchId);
-
-        return cupboard().withDatabase(db).query(clz).
-                withProjection(projection).
-                withSelection(selection, selectionArgs).
-                orderBy(sortOrder).
-                getCursor();
-    }
-    */
 
     public Enum findEnum(final int matchId) {
         return getConfig().uriById(matchId);

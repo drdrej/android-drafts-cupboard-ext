@@ -15,6 +15,8 @@ import java.lang.annotation.Target;
 public @interface UriOperation {
     Class<?> insert() default Void.class;
     Class<?> delete() default Void.class;
-    Class<? extends DbCommand> query();
+
+    ContentProviderQueryContract query();
+
     Class<?> update() default Void.class;
 }
