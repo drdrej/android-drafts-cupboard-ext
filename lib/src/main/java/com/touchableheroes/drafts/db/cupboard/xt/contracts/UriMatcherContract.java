@@ -21,4 +21,21 @@ public @interface UriMatcherContract {
     UriOperation operations() default @UriOperation(
         query = CupboardBasedQueryDbCommand.class
     );
+
+    /**
+     * The mime type of a directory of items.
+     */
+        /* public static final String CONTENT_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE +
+                        "/vnd.de.openminds.lentitems_items";
+                        */
+    /**
+     * The mime type of a single item.
+     */
+        /* public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE +
+                        "/vnd.de.openminds.lentitems_items";
+                        */
+    String mimeType() default "";
+
 }

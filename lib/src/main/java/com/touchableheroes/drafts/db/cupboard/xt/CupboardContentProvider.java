@@ -109,6 +109,7 @@ public abstract class CupboardContentProvider extends ContentProvider {
         }
     }
 
+    /*
     private Cursor doQuery(
             final Uri uri,
             final String[] projection,
@@ -127,6 +128,7 @@ public abstract class CupboardContentProvider extends ContentProvider {
                 orderBy(sortOrder).
                 getCursor();
     }
+    */
 
     public Enum findEnum(final int matchId) {
         return getConfig().uriById(matchId);
@@ -141,24 +143,19 @@ public abstract class CupboardContentProvider extends ContentProvider {
 
     @Override
     public String getType(final Uri uri) {
-        /**
-         * The mime type of a directory of items.
-         */
-        /* public static final String CONTENT_TYPE =
-                ContentResolver.CURSOR_DIR_BASE_TYPE +
-                        "/vnd.de.openminds.lentitems_items";
-                        */
-        /**
-         * The mime type of a single item.
-         */
-        /* public static final String CONTENT_ITEM_TYPE =
-                ContentResolver.CURSOR_ITEM_BASE_TYPE +
-                        "/vnd.de.openminds.lentitems_items";
-                        */
+        try {
+            final int matchId = matcherMgr.match(uri);
+            final Enum contract = findEnum(matchId);
 
-        // hier den myme/type anhand des uri matchers und der uri bestimmen und zureuckgeben.
+            final String rval = EnumTool.withEnum(contract).annotation(UriMatcherContract.class).mimeType();
 
-        return null;
+            if( rval.length() < 1 )
+                return null;
+
+            return rval;
+        } catch (final Throwable x) {
+            return null;
+        }
     }
 
     @Override
