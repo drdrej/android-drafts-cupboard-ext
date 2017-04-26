@@ -59,7 +59,7 @@ public abstract class CupboardContentProvider extends ContentProvider {
             final Enum contract = findEnum(matchId);
 
             final UriMatcherContract uriMatcher = EnumTool.withEnum(contract).annotation(UriMatcherContract.class);
-            final Class<? extends DbCommand> queryCmdClass = uriMatcher.operations().query();
+            final Class<? extends DbCommand> queryCmdClass = uriMatcher.operations().query().command();
 
             try {
                 final Constructor<? extends DbCommand> constructor = queryCmdClass.getConstructor(SQLiteOpenHelper.class);
