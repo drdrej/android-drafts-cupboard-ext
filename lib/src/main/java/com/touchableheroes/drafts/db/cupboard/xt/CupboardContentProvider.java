@@ -4,11 +4,16 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
 
 import com.touchableheroes.drafts.core.tools.EnumTool;
+import com.touchableheroes.drafts.db.cupboard.xt.commands.DbCommand;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContract;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
@@ -19,7 +24,7 @@ public abstract class CupboardContentProvider extends ContentProvider {
 
     private final DbConfig config;
 
-    private CupboardSQLiteDBHelper mDatabaseHelper;
+    private CupboardSQLiteDBHelper dbHelper;
 
     private UriMatcherManager matcherMgr = new UriMatcherManager();
 
@@ -31,14 +36,16 @@ public abstract class CupboardContentProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        initDB();
-        initUriMatcher(matcherMgr);
+        synchronized( LOCK ) {
+            initDB();
+            initUriMatcher(matcherMgr);
 
-        return true;
+            return true;
+        }
     }
 
     private void initDB() {
-        mDatabaseHelper = new CupboardSQLiteDBHelper(getContext(), config);
+        dbHelper = new CupboardSQLiteDBHelper(getContext(), config);
     }
 
     protected void initUriMatcher(
@@ -57,6 +64,40 @@ public abstract class CupboardContentProvider extends ContentProvider {
                         final String[] selectionArgs,
                         final String sortOrder) {
         synchronized (LOCK) {
+            final int matchId = this.matcherMgr.match(uri);
+            final Enum contract = findEnum(matchId);
+
+            final UriMatcherContract uriMatcher = EnumTool.withEnum(contract).annotation(UriMatcherContract.class);
+            final Class<? extends DbCommand> queryCmdClass = uriMatcher.operations().query();
+
+            try {
+                final Constructor<? extends DbCommand> constructor = queryCmdClass.getConstructor(SQLiteOpenHelper.class);
+                final DbCommand dbCommand = constructor.newInstance(dbHelper);
+
+                return dbCommand.exec(contract,
+                        uri,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        sortOrder);
+            } catch (final Throwable x) {
+                throw new IllegalStateException( "Couldn't initialize and execute DbCommand.",  x);
+            }
+                /*
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+            */
+
+
+            //Class byMatchId = findByMatchId(matchId);
+/*
             final Cursor cursor = doQuery(uri, projection, selection, selectionArgs, sortOrder);
 
             int count = cursor.getCount();
@@ -64,6 +105,7 @@ public abstract class CupboardContentProvider extends ContentProvider {
             System.out.println( "--> LOAD CURSOR.size = " + count);
 
             return cursor;
+            */
         }
     }
 
@@ -74,7 +116,7 @@ public abstract class CupboardContentProvider extends ContentProvider {
             final String sortOrder) {
 
 
-        final SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
+        final SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         final int matchId = matcherMgr.match(uri);
         final Class clz = findByMatchId(matchId);
@@ -132,7 +174,7 @@ public abstract class CupboardContentProvider extends ContentProvider {
 
 
     private Uri doInsert(Uri uri, ContentValues values) {
-        final SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
+        final SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         final int matchId = matcherMgr.match(uri);
         final Class type = findByMatchId(matchId);

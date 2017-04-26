@@ -5,12 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
-import static nl.qbusict.cupboard.CupboardFactory.cupboard;
-
 /**
  * Created by asiebert on 26.04.2017.
  */
-
 public abstract class DbCommand {
 
     private final SQLiteOpenHelper dbHelper;
@@ -29,9 +26,9 @@ public abstract class DbCommand {
 
     public abstract Cursor exec(final Enum contract,
                        final Uri uri,
-                       final String projection,
+                       final String[] projection,
                        final String selection,
-                       final String selectionArgs,
+                       final String[] selectionArgs,
                        final String sortOrder
     );
 

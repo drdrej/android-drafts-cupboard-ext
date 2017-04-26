@@ -11,19 +11,13 @@ public enum ExampleUriContracts {
 
     @UriMatcherContract(
             type = ExampleEntity.class,
-            path = "/entity",
-            operations = @UriOperation(
-
-            )
+            path = "/entity"
     )
     ENTITY_BY_ID,
 
     @UriMatcherContract(
             type = ExampleEntity.class,
-            path = "/all",
-            operations = @UriOperation(
-                
-            ))
+            path = "/entities" )
     ALL_ENTITIES
 
 }

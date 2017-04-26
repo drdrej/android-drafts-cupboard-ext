@@ -21,11 +21,12 @@ public class CupboardBasedQueryDbCommand extends DbCommand {
         super(dbHelper);
     }
 
+    @Override
     public Cursor exec(final Enum contract,
                        final Uri uri,
-                       final String projection,
+                       final String[] projection,
                        final String selection,
-                       final String selectionArgs,
+                       final String[] selectionArgs,
                        final String sortOrder
     ) {
         final SQLiteDatabase db = readble();
