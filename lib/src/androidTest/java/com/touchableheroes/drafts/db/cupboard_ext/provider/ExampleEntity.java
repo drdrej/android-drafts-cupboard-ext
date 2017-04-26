@@ -1,5 +1,7 @@
 package com.touchableheroes.drafts.db.cupboard_ext.provider;
 
+import com.touchableheroes.drafts.db.cupboard.xt.contracts.Entity;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -8,7 +10,7 @@ import java.util.Date;
  *
  * Created by asiebert on 25.04.2017.
  */
-public class ExampleEntity {
+public class ExampleEntity implements Entity {
 
     public Long _id;
 

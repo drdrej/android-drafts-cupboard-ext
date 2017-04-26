@@ -11,6 +11,7 @@ import android.test.ProviderTestCase2;
 import android.test.mock.MockContext;
 
 import com.touchableheroes.drafts.core.tools.EnumTool;
+import com.touchableheroes.drafts.db.cupboard.xt.contracts.ContentValuesUtil;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.ContractUriUtil;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContract;
 import com.touchableheroes.drafts.db.cupboard.xt.loader.UriTemplate;
@@ -78,28 +79,30 @@ public class ExampleCupboardContentProviderTest
 
     @Test
     public void testInsertQuery(){
-        final ContentProvider provider = getProvider();
+        final ExampleCupboardContentProvider provider = getProvider();
 
-
-        final UriTemplate uriTemplate =  ContractUriUtil.uriByState( ExampleUriContracts.ALL_ENTITIES );
-        final Uri uriCall = uriTemplate.create();
-
-        final EnumTool.EnumWrapper enumWrapper = EnumTool.withEnum( ExampleUriContracts.ENTITY_BY_ID );
-        final UriMatcherContract def = enumWrapper.annotation(UriMatcherContract.class);
-
-        final Uri insertUri = ContractUriUtil.uriByState(ExampleUriContracts.ENTITY_BY_ID).create();
+        final Uri insertUri = ContractUriUtil.createInsert(ExampleUriContracts.ENTITY_BY_ID);
 
 /*        final Uri resultUri = cupboard()
                 .withContext( getContext() )
                 .put(insertUri, entity);
 */
+        ExampleEntity entity = new ExampleEntity();
 
-        ContentValues contentValues = new ContentValues();
 
-        contentValues.put( "_id", 1 );
-        contentValues.put( "name", "Name xa,xa" );
+        entity._id = 12L;
+        entity.name = "test entry";
 
-        Uri resultUri = provider.insert(insertUri, contentValues);
+        final ContentValues values = ContentValuesUtil.entityToContentValues(entity);
+
+//        contentValues.put( "_id", 1 );
+ //       contentValues.put( "name", "Name xa,xa" );
+
+        Uri resultUri = provider.insert(insertUri, values);
+
+// request db content:
+        final UriTemplate uriTemplate =  ContractUriUtil.uriByState( ExampleUriContracts.ALL_ENTITIES );
+        final Uri uriCall = uriTemplate.create();
 
         final String[] projection = null; // projection(def); // --> Map auf die Entity
 
@@ -124,6 +127,8 @@ public class ExampleCupboardContentProviderTest
             System.out.println( "[" + i + "] " + exampleEntity);
         }
 
+        assertEquals( "Size of Entries in List:", results.size(), 1 );
+        assertEquals( "Name of entry: ", results.get(0).name, entity.name);
     }
 
 }

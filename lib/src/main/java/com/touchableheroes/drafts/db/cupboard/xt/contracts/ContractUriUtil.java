@@ -1,5 +1,6 @@
 package com.touchableheroes.drafts.db.cupboard.xt.contracts;
 
+import android.content.ContentValues;
 import android.net.Uri;
 
 import com.touchableheroes.drafts.core.tools.EnumTool;
@@ -33,6 +34,27 @@ public class ContractUriUtil {
     public static UriTemplate uriByState(final Enum uri) {
         final UriMatcherContract paragraph = EnumTool.withEnum( uri ).annotation(UriMatcherContract.class);
         return new UriTemplate(uriStr(uri, paragraph));
+    }
+
+
+    public static Uri createInsert( final Enum uri ) {
+        final EnumTool.EnumWrapper enumWrapper = EnumTool.withEnum( uri );
+        final UriMatcherContract def = enumWrapper.annotation(UriMatcherContract.class);
+
+        final Uri rval = ContractUriUtil.uriByState(uri).create();
+
+        return rval;
+
+/*        final Uri resultUri = cupboard()
+                .withContext( getContext() )
+                .put(insertUri, entity);
+*/
+/*
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put( "_id", 1 );
+        contentValues.put( "name", "Name xa,xa" );
+*/
     }
 
 }
