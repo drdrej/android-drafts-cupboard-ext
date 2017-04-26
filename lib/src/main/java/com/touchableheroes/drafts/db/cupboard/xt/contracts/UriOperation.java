@@ -6,17 +6,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Created by asiebert on 27.02.16.
+ * Created by asiebert on 26.04.2017.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface UriMatcherContract {
-
-    Class<?> type();
-
-    String path();
-
-    UriOperation operations() default @UriOperation(
-
-    );
+public @interface UriOperation {
+    Class<?> insert() default Void.class;
+    Class<?> delete() default Void.class;
+    Class<?> query() default Void.class;
+    Class<?> update() default Void.class;
 }

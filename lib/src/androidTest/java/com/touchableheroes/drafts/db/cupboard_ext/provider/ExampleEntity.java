@@ -1,8 +1,7 @@
 package com.touchableheroes.drafts.db.cupboard_ext.provider;
 
-import com.touchableheroes.drafts.db.cupboard.xt.contracts.Entity;
+import com.touchableheroes.drafts.db.cupboard.xt.contracts.types.Entity;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**

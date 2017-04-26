@@ -1,9 +1,9 @@
-package com.touchableheroes.drafts.db.cupboard.xt.contracts;
+package com.touchableheroes.drafts.db.cupboard.xt.util;
 
-import android.content.ContentValues;
 import android.net.Uri;
 
 import com.touchableheroes.drafts.core.tools.EnumTool;
+import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContract;
 import com.touchableheroes.drafts.db.cupboard.xt.loader.UriTemplate;
 
 /**

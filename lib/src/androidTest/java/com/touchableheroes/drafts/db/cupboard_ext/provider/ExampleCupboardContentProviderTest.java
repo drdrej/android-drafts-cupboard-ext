@@ -8,12 +8,9 @@ import android.net.Uri;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.ProviderTestCase2;
-import android.test.mock.MockContext;
 
-import com.touchableheroes.drafts.core.tools.EnumTool;
-import com.touchableheroes.drafts.db.cupboard.xt.contracts.ContentValuesUtil;
-import com.touchableheroes.drafts.db.cupboard.xt.contracts.ContractUriUtil;
-import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContract;
+import com.touchableheroes.drafts.db.cupboard.xt.util.ContentValuesUtil;
+import com.touchableheroes.drafts.db.cupboard.xt.util.ContractUriUtil;
 import com.touchableheroes.drafts.db.cupboard.xt.loader.UriTemplate;
 
 import org.junit.Before;

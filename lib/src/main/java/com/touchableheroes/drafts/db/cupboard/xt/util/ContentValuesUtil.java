@@ -1,6 +1,8 @@
-package com.touchableheroes.drafts.db.cupboard.xt.contracts;
+package com.touchableheroes.drafts.db.cupboard.xt.util;
 
 import android.content.ContentValues;
+
+import com.touchableheroes.drafts.db.cupboard.xt.contracts.types.Entity;
 
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
