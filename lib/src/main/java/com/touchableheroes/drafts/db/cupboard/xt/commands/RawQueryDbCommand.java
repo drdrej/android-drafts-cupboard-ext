@@ -1,10 +1,14 @@
 package com.touchableheroes.drafts.db.cupboard.xt.commands;
 
 import android.database.Cursor;
+import android.database.CursorWrapper;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
 import com.touchableheroes.drafts.core.tools.EnumTool;
+import com.touchableheroes.drafts.db.cupboard.xt.NoDataCursor;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.QueryContract;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContract;
 
@@ -26,7 +30,10 @@ public class RawQueryDbCommand extends DbCommand {
                        final String sortOrder) {
         final String[] args = null; // new String[0];
 
-        final QueryContract query = EnumTool.withEnum(contract).annotation(UriMatcherContract.class).operations().query();
+        final EnumTool.EnumWrapper enumWrap = EnumTool.withEnum(contract);
+        final UriMatcherContract uriMatcherContract = enumWrap.annotation(UriMatcherContract.class);
+
+        final QueryContract query = uriMatcherContract.operations().query();
         final String sql = query.sql();
 
         /*
@@ -34,9 +41,13 @@ public class RawQueryDbCommand extends DbCommand {
         CancellationSignal cancelation = new CancellationSignal() {};
         */
 
-        final Cursor rval = readble().rawQuery(sql, args /*, cancelation*/);
+        try {
+            final Cursor rval = readble().rawQuery(sql, args /*, cancelation*/);
 
-        return rval;
+            return rval;
+        } catch ( final SQLiteException x ) { // Caused by: android.database.sqlite.SQLiteException: no such table:
+            return NoDataCursor.get();
+        }
     }
 
 

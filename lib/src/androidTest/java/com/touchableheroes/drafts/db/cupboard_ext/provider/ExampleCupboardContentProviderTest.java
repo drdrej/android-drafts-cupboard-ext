@@ -128,4 +128,39 @@ public class ExampleCupboardContentProviderTest
         assertEquals( "Name of entry: ", results.get(0).name, entity.name);
     }
 
+
+
+
+
+    @Test
+    public void testInsertQueryById(){
+        final ExampleCupboardContentProvider provider = getProvider();
+
+        final Uri insertUri = ContractUriUtil.createInsert(ExampleUriContracts.ENTITY_BY_ID);
+
+        final ExampleEntity entity = new ExampleEntity();
+        entity._id = System.currentTimeMillis();
+        entity.name = "testInsertQueryById";
+
+        final ContentValues values = ContentValuesUtil.entityToContentValues(entity);
+
+        final Uri resultUri = provider.insert(insertUri, values);
+
+        // request db content:
+        final UriTemplate uriTemplate =  ContractUriUtil.uriByState( ExampleUriContracts.ENTITY_BY_ID );
+        final Uri uriCall = uriTemplate.create();
+
+        final Cursor result = provider.query(uriCall, null, null, null, null);
+        assertNotNull( result );
+
+        final List<ExampleEntity> results = cupboard().withCursor(result).list(ExampleEntity.class);
+        for (int i = 0; result != null && i < results.size(); i++ ) {
+            ExampleEntity exampleEntity = results.get(i);
+            System.out.println( "[" + i + "] " + exampleEntity);
+        }
+
+        assertEquals( "Size of Entries in List:", results.size(), 1 );
+        assertEquals( "Name of entry: ", results.get(0).name, entity.name);
+    }
+
 }
