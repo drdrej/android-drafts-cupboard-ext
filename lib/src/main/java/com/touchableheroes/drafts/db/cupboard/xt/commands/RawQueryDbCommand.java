@@ -26,9 +26,8 @@ public class RawQueryDbCommand extends DbCommand {
                        final Uri uri,
                        final String[] projection,
                        final String selection,
-                       final String[] selectionArgs,
+                       final String[] args,
                        final String sortOrder) {
-        final String[] args = null; // new String[0];
 
         final EnumTool.EnumWrapper enumWrap = EnumTool.withEnum(contract);
         final UriMatcherContract uriMatcherContract = enumWrap.annotation(UriMatcherContract.class);
@@ -46,6 +45,8 @@ public class RawQueryDbCommand extends DbCommand {
 
             return rval;
         } catch ( final SQLiteException x ) { // Caused by: android.database.sqlite.SQLiteException: no such table:
+            x.printStackTrace();
+
             return NoDataCursor.get();
         }
     }

@@ -16,11 +16,23 @@ public enum ExampleUriContracts {
             operations = @UriOperation(
                     query = @QueryContract(
                             command = RawQueryDbCommand.class,
-                            sql = "SELECT * FROM a"
+                            sql = "SELECT * FROM ExampleEntity"
                     )
             )
     )
     ENTITY_BY_ID,
+
+    @UriMatcherContract(
+            type = ExampleEntity.class, // Type muss hier raus. ist eher die gruppe der Entitäten
+            path = "/entity",
+            operations = @UriOperation(
+                    query = @QueryContract(
+                            command = RawQueryDbCommand.class,
+                            sql = "SELECT * FROM a" // table not exists
+                    )
+            )
+    )
+    BROKEN_RAW_QUERY,
 
     @UriMatcherContract(
             type = ExampleEntity.class,
