@@ -68,6 +68,7 @@ public abstract class CupboardLoaderCallback<T extends Enum<T>, R>
                 selectionArgs, sortOrder);
     }
 
+    /*
     protected String[] projection(final UriMatcherContract def) {
         final List<String> names = new ArrayList<>();
 
@@ -80,6 +81,7 @@ public abstract class CupboardLoaderCallback<T extends Enum<T>, R>
         final String[] rval = new String[ names.size() ];
         return names.toArray(rval);
     }
+    */
 
     private boolean isEntityField(final Field field) {
         return (field.isAccessible() && !field.isSynthetic());

@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface UriMatcherContract {
 
-    Class<?> type();
+    /* Class<?> type(); */
 
     // String path();
 

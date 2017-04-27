@@ -1,7 +1,10 @@
 package com.touchableheroes.drafts.db.cupboard_ext.provider;
 
+import com.touchableheroes.drafts.db.cupboard.xt.commands.CupboardBasedQueryDbCommand;
 import com.touchableheroes.drafts.db.cupboard.xt.commands.RawQueryDbCommand;
+import com.touchableheroes.drafts.db.cupboard.xt.commands.cupboard.CupboardBasedInsertCommand;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.DbContract;
+import com.touchableheroes.drafts.db.cupboard.xt.contracts.InsertContract;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.QueryContract;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContract;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriOperation;
@@ -19,8 +22,11 @@ import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriOperation;
 public enum ExampleUris {
 
     @UriMatcherContract(
-            type = ExampleEntity.class, // Type muss hier raus. ist eher die gruppe der Entitäten
             operations = @UriOperation(
+                    insert = @InsertContract(
+                            entity = ExampleEntity.class,
+                            command = CupboardBasedInsertCommand.class
+                    ),
                     query = @QueryContract(
                             command = RawQueryDbCommand.class,
                             sql = "SELECT * FROM ExampleEntity"
@@ -30,7 +36,16 @@ public enum ExampleUris {
     ENTITY,
 
     @UriMatcherContract(
-            type = ExampleEntity.class, // Type muss hier raus. ist eher die gruppe der Entitäten
+            operations = @UriOperation(
+                    query = @QueryContract(
+                            command = CupboardBasedQueryDbCommand.class,
+                            entity = ExampleEntity.class
+                    )
+            )
+    )
+    ENTITY_cupboardbased,
+
+    @UriMatcherContract(
             operations = @UriOperation(
                     query = @QueryContract(
                             command = RawQueryDbCommand.class,
@@ -41,7 +56,12 @@ public enum ExampleUris {
     BROKEN_RAW_QUERY,
 
     @UriMatcherContract(
-            type = ExampleEntity.class
+            operations = @UriOperation(
+                    query = @QueryContract(
+                            command = CupboardBasedQueryDbCommand.class,
+                            entity  = ExampleEntity.class
+                    )
+            )
     )
     ENTITIES
 

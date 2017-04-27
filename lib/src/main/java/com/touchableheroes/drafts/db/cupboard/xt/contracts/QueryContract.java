@@ -17,4 +17,6 @@ public @interface QueryContract {
     Class<? extends DbCommand> command();
 
     String sql() default "";
+
+    Class<? extends Object> entity() default Void.class;
 }

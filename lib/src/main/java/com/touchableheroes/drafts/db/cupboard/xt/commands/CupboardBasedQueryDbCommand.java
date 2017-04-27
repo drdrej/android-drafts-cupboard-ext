@@ -5,7 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
+import com.touchableheroes.drafts.core.logger.Tracer;
 import com.touchableheroes.drafts.core.tools.EnumTool;
+import com.touchableheroes.drafts.db.cupboard.xt.NoDataCursor;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContract;
 
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
@@ -30,7 +32,17 @@ public class CupboardBasedQueryDbCommand extends DbCommand {
                        final String sortOrder
     ) {
         final SQLiteDatabase db = readble();
-        final Class<? extends Object> clz = EnumTool.withEnum(contract).annotation(UriMatcherContract.class).type();
+        final Class<? extends Object> clz = EnumTool.withEnum(contract)
+                .annotation(UriMatcherContract.class)
+                .operations().query().entity();
+
+        if( clz == Void.class ) {
+            if( Tracer.isDevMode() ) {
+                throw new IllegalStateException( "Couldn'T execute query, missing entity (is Void.class) in [enum = " + contract.name() + "]" );
+            } else {
+                return new NoDataCursor();
+            }
+        }
 
         return cupboard().withDatabase(db).query(clz).
                 withProjection(projection).

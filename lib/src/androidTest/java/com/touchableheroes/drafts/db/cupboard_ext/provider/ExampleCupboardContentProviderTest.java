@@ -181,7 +181,38 @@ public class ExampleCupboardContentProviderTest
         final Cursor result = provider.query(uriCall, null, null, null, null);
         assertNotNull( result );
         assertEquals( "No Elements found.", 0, result.getCount() );
+    }
 
+
+    @Test
+    public void testQueryCupboardBasedByEntity(){
+        final ExampleCupboardContentProvider provider = getProvider();
+
+        final ExampleEntity entity = new ExampleEntity();
+        entity._id = System.currentTimeMillis();
+        entity.name = "testInsertQueryById";
+
+        {
+            final Uri insertUri = ContractUriUtil.createInsert(ExampleUris.ENTITY_cupboardbased);
+
+            final ContentValues values = ContentValuesUtil.entityToContentValues(entity);
+
+            final Uri resultUri = provider.insert(insertUri, values);
+        }
+
+        // request db content:
+        final Uri uriCall =  ContractUriUtil.uriByState( ExampleUris.ENTITY_cupboardbased ).create();
+        final Cursor result = provider.query(uriCall, null, null, null, null);
+        assertNotNull( result );
+
+        final List<ExampleEntity> results = cupboard().withCursor(result).list(ExampleEntity.class);
+        for (int i = 0; result != null && i < results.size(); i++ ) {
+            ExampleEntity exampleEntity = results.get(i);
+            System.out.println( "[" + i + "] " + exampleEntity);
+        }
+
+        assertEquals( "Size of Entries in List:", results.size(), 1 );
+        assertEquals( "Name of entry: ", results.get(0).name, entity.name);
     }
 
 }

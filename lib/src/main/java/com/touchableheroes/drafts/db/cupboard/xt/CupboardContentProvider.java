@@ -1,6 +1,7 @@
 package com.touchableheroes.drafts.db.cupboard.xt;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,6 +11,8 @@ import android.net.Uri;
 
 import com.touchableheroes.drafts.core.tools.EnumTool;
 import com.touchableheroes.drafts.db.cupboard.xt.commands.DbCommand;
+import com.touchableheroes.drafts.db.cupboard.xt.commands.InsertDbCommand;
+import com.touchableheroes.drafts.db.cupboard.xt.contracts.InsertContract;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContract;
 
 import java.lang.reflect.Constructor;
@@ -81,13 +84,6 @@ public abstract class CupboardContentProvider extends ContentProvider {
         return getConfig().uriById(matchId);
     }
 
-    private Class findByMatchId(final int matchId) {
-        final Enum uri = findEnum(matchId);
-        final UriMatcherContract contract = EnumTool.withEnum(uri).annotation(UriMatcherContract.class);
-
-        return contract.type();
-    }
-
     @Override
     public String getType(final Uri uri) {
         try {
@@ -115,30 +111,39 @@ public abstract class CupboardContentProvider extends ContentProvider {
     }
 
 
-
-
-    private Uri doInsert(Uri uri, ContentValues values) {
+    private Uri doInsert(final Uri uri,
+                         final ContentValues values) {
         final SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         final int matchId = matcherMgr.match(uri);
-        final Class type = findByMatchId(matchId);
+        final Enum uriEnum = findEnum(matchId);
 
-        // TODO: hier prüfen, wie allgemein das ist:::
-        final long id = Long.getLong(uri.getLastPathSegment(), 0);
+        final UriMatcherContract uriMatcher = EnumTool.withEnum(uriEnum).annotation(UriMatcherContract.class);
+        final Class<? extends InsertDbCommand> cmdClass = uriMatcher.operations().insert().command();
+/*
+        if( cmdClass == Void.class ) {
+            throw new UnsupportedOperationException( "No " );
+        }
+*/
+        try {
+            final Constructor<? extends InsertDbCommand> constructor = cmdClass.getConstructor(SQLiteDatabase.class);
+            final InsertDbCommand dbCommand = constructor.newInstance(dbHelper.getWritableDatabase());
 
-        final long resultId;
+            final long[] newIds = dbCommand.exec(uriEnum, -1, values );
 
-        final String resultUri;
-        if (id == 0) {
-            resultId = cupboard().withDatabase(db).put(type, values);
-            resultUri = uri + "/" + resultId;
-
-            return Uri.parse(resultUri);
-        } else {
-            resultId = cupboard().withDatabase(db).update(type, values);
-            return uri;
+            switch( newIds.length ) {
+                case 0:
+                    return uri; // same uri because nothing created
+                case 1:
+                    return ContentUris.withAppendedId(uri, newIds[0]);
+                default:
+                    throw new UnsupportedOperationException("Missing implementation for uri for many generated objects in one insertdbcommand. Please fix, now its time!");
+            }
+        } catch (final Throwable x) {
+            throw new IllegalStateException("Couldn't initialize and execute DbCommand.", x);
         }
     }
+
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
