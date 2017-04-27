@@ -9,6 +9,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.ProviderTestCase2;
 
+import com.touchableheroes.drafts.core.logger.Tracer;
 import com.touchableheroes.drafts.db.cupboard.xt.util.ContentValuesUtil;
 import com.touchableheroes.drafts.db.cupboard.xt.util.ContractUriUtil;
 import com.touchableheroes.drafts.db.cupboard.xt.loader.UriTemplate;
@@ -36,6 +37,8 @@ public class ExampleCupboardContentProviderTest
     public void setUp() throws Exception {
         super.setUp();
 
+        Tracer.setDevMode( true );
+
         Context ctx = InstrumentationRegistry.getTargetContext();
         setContext(ctx);
 
@@ -53,7 +56,7 @@ public class ExampleCupboardContentProviderTest
     public void testQuery(){
         ContentProvider provider = getProvider();
 
-        final UriTemplate uriTemplate =  ContractUriUtil.uriByState( ExampleUriContracts.ALL_ENTITIES );
+        final UriTemplate uriTemplate =  ContractUriUtil.uriByState( ExampleUris.ALL_ENTITIES );
         final Uri uriCall = uriTemplate.create();
 
         final String[] projection = null; // projection(def); // --> Map auf die Entity
@@ -78,7 +81,7 @@ public class ExampleCupboardContentProviderTest
     public void testInsertQuery(){
         final ExampleCupboardContentProvider provider = getProvider();
 
-        final Uri insertUri = ContractUriUtil.createInsert(ExampleUriContracts.ENTITY_BY_ID);
+        final Uri insertUri = ContractUriUtil.createInsert(ExampleUris.ENTITY_BY_ID);
 
 /*        final Uri resultUri = cupboard()
                 .withContext( getContext() )
@@ -98,7 +101,7 @@ public class ExampleCupboardContentProviderTest
         Uri resultUri = provider.insert(insertUri, values);
 
 // request db content:
-        final UriTemplate uriTemplate =  ContractUriUtil.uriByState( ExampleUriContracts.ALL_ENTITIES );
+        final UriTemplate uriTemplate =  ContractUriUtil.uriByState( ExampleUris.ALL_ENTITIES );
         final Uri uriCall = uriTemplate.create();
 
         final String[] projection = null; // projection(def); // --> Map auf die Entity
@@ -136,7 +139,7 @@ public class ExampleCupboardContentProviderTest
     public void testInsertQueryById(){
         final ExampleCupboardContentProvider provider = getProvider();
 
-        final Uri insertUri = ContractUriUtil.createInsert(ExampleUriContracts.ENTITY_BY_ID);
+        final Uri insertUri = ContractUriUtil.createInsert(ExampleUris.ENTITY_BY_ID);
 
         final ExampleEntity entity = new ExampleEntity();
         entity._id = System.currentTimeMillis();
@@ -147,7 +150,7 @@ public class ExampleCupboardContentProviderTest
         final Uri resultUri = provider.insert(insertUri, values);
 
         // request db content:
-        final UriTemplate uriTemplate =  ContractUriUtil.uriByState( ExampleUriContracts.ENTITY_BY_ID );
+        final UriTemplate uriTemplate =  ContractUriUtil.uriByState( ExampleUris.ENTITY_BY_ID );
         final Uri uriCall = uriTemplate.create();
 
         final Cursor result = provider.query(uriCall, null, null, null, null);

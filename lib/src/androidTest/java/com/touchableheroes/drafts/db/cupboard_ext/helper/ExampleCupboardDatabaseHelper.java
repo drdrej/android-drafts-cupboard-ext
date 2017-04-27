@@ -7,7 +7,7 @@ import android.test.RenamingDelegatingContext;
 import com.touchableheroes.drafts.db.cupboard.xt.CupboardSQLiteDBHelper;
 import com.touchableheroes.drafts.db.cupboard.xt.DbConfig;
 import com.touchableheroes.drafts.db.cupboard_ext.provider.ExampleEntity;
-import com.touchableheroes.drafts.db.cupboard_ext.provider.ExampleUriContracts;
+import com.touchableheroes.drafts.db.cupboard_ext.provider.ExampleUris;
 
 import org.junit.After;
 import org.junit.Before;
@@ -28,11 +28,7 @@ public class ExampleCupboardDatabaseHelper
     public void setUp(){
         ctx
                 = new RenamingDelegatingContext(getContext(), "test_");
-        db = new CupboardSQLiteDBHelper(ctx, new DbConfig(
-                "example-sql-helper", 1,
-                new Class[] { ExampleEntity.class },
-                ExampleUriContracts.class
-        ));
+        db = new CupboardSQLiteDBHelper(ctx, ExampleUris.class);
     }
 
 

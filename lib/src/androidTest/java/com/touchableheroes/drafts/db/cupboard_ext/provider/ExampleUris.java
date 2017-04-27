@@ -1,6 +1,7 @@
 package com.touchableheroes.drafts.db.cupboard_ext.provider;
 
 import com.touchableheroes.drafts.db.cupboard.xt.commands.RawQueryDbCommand;
+import com.touchableheroes.drafts.db.cupboard.xt.contracts.DbContract;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.QueryContract;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContract;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriOperation;
@@ -8,7 +9,14 @@ import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriOperation;
 /**
  * Created by asiebert on 25.04.2017.
  */
-public enum ExampleUriContracts {
+@DbContract(
+        name="example-db",
+        version=1,
+        entities = {
+                ExampleEntity.class
+        }
+)
+public enum ExampleUris {
 
     @UriMatcherContract(
             type = ExampleEntity.class, // Type muss hier raus. ist eher die gruppe der Entitäten

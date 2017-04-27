@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
+import com.touchableheroes.drafts.core.logger.Tracer;
 import com.touchableheroes.drafts.core.tools.EnumTool;
 import com.touchableheroes.drafts.db.cupboard.xt.NoDataCursor;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.QueryContract;
@@ -45,9 +46,11 @@ public class RawQueryDbCommand extends DbCommand {
 
             return rval;
         } catch ( final SQLiteException x ) { // Caused by: android.database.sqlite.SQLiteException: no such table:
-            x.printStackTrace();
-
-            return NoDataCursor.get();
+            if( Tracer.isDevMode()) {
+                throw new RuntimeException( "Couldn't execute raw-query [sql=" + sql + "] of uri {enum = " + contract.name() + "].", x );
+            } else {
+                return NoDataCursor.get();
+            }
         }
     }
 

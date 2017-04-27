@@ -13,7 +13,7 @@ public class ExampleCupboardContentProvider extends CupboardContentProvider {
         super(
                 new DbConfig( "example-db", 1,
                     new Class[] { ExampleEntity.class },
-                    ExampleUriContracts.class
+                    ExampleUris.class
         ));
     }
 }
