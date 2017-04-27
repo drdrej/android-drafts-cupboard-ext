@@ -16,10 +16,9 @@ public @interface UriMatcherContract {
 
     Class<?> type();
 
-    String path();
+    // String path();
 
     UriOperation operations() default @UriOperation(
-
             query = @QueryContract(
                      command = CupboardBasedQueryDbCommand.class
         )

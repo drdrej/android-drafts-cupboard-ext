@@ -81,7 +81,7 @@ public class ExampleCupboardContentProviderTest
     public void testInsertQuery(){
         final ExampleCupboardContentProvider provider = getProvider();
 
-        final Uri insertUri = ContractUriUtil.createInsert(ExampleUris.ENTITY_BY_ID);
+        final Uri insertUri = ContractUriUtil.createInsert(ExampleUris.ENTITY);
 
 /*        final Uri resultUri = cupboard()
                 .withContext( getContext() )
@@ -139,7 +139,7 @@ public class ExampleCupboardContentProviderTest
     public void testInsertQueryById(){
         final ExampleCupboardContentProvider provider = getProvider();
 
-        final Uri insertUri = ContractUriUtil.createInsert(ExampleUris.ENTITY_BY_ID);
+        final Uri insertUri = ContractUriUtil.createInsert(ExampleUris.ENTITY);
 
         final ExampleEntity entity = new ExampleEntity();
         entity._id = System.currentTimeMillis();
@@ -150,7 +150,7 @@ public class ExampleCupboardContentProviderTest
         final Uri resultUri = provider.insert(insertUri, values);
 
         // request db content:
-        final UriTemplate uriTemplate =  ContractUriUtil.uriByState( ExampleUris.ENTITY_BY_ID );
+        final UriTemplate uriTemplate =  ContractUriUtil.uriByState( ExampleUris.ENTITY );
         final Uri uriCall = uriTemplate.create();
 
         final Cursor result = provider.query(uriCall, null, null, null, null);

@@ -27,8 +27,10 @@ public class ContractUriUtil {
     }
     */
 
-    public static String  uriStr(final Enum uri, final UriMatcherContract paragraph) {
-        return "content://" + uri.getClass().getName() + paragraph.path();
+    public static String  uriStr(final Enum uri,
+                                 final UriMatcherContract paragraph) {
+        final String path = "/" + uri.name();
+        return "content://" + uri.getClass().getName() + path; /* paragraph.path(); */
     }
 
     public static UriTemplate uriByState(final Enum uri) {

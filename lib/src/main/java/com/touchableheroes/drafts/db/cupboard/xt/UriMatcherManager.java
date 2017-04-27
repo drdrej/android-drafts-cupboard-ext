@@ -22,21 +22,6 @@ public class UriMatcherManager {
         matcher = new UriMatcher(UriMatcher.NO_MATCH);
     }
 
-    @Deprecated
-    public void registerUri(
-            final CupboardContract contract,
-            final Enum state) {
-        System.out.println( "--> registerUri: " + contract + " / " + state);
-
-        final UriMatcherContract dbResource = EnumTool.withEnum(state)
-                .annotation(UriMatcherContract.class);
-
-        System.out.println("--> registerUri: " + ("content://" + contract.authority()) + " path = " + dbResource.path());
-
-        final String host = "content://" + contract.authority();
-
-        matcher.addURI( host, dbResource.path(), state.ordinal());
-    }
 
     public void registerUri(
             final String authority,
@@ -49,8 +34,10 @@ public class UriMatcherManager {
             throw new IllegalStateException( "Couldn't configure ContentProvider with URIs" );
         }
 
-        Log.d( "DB", "--> registerUri: " + ("content://" + authority) + " path = " + dbResource.path());
-        matcher.addURI( authority, dbResource.path(), state.ordinal());
+        final String path = "/" + state.name(); /* dbResource.path() */
+        Log.d( "DB", "--> registerUri: " + ("content://" + authority) + " path = " + path);
+
+        matcher.addURI( authority, path, state.ordinal());
     }
 
     public int match(final Uri uri) {

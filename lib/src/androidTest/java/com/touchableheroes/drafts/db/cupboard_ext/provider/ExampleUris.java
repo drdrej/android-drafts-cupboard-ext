@@ -20,7 +20,6 @@ public enum ExampleUris {
 
     @UriMatcherContract(
             type = ExampleEntity.class, // Type muss hier raus. ist eher die gruppe der Entitäten
-            path = "/entity",
             operations = @UriOperation(
                     query = @QueryContract(
                             command = RawQueryDbCommand.class,
@@ -28,11 +27,10 @@ public enum ExampleUris {
                     )
             )
     )
-    ENTITY_BY_ID,
+    ENTITY,
 
     @UriMatcherContract(
             type = ExampleEntity.class, // Type muss hier raus. ist eher die gruppe der Entitäten
-            path = "/entity",
             operations = @UriOperation(
                     query = @QueryContract(
                             command = RawQueryDbCommand.class,
@@ -43,8 +41,8 @@ public enum ExampleUris {
     BROKEN_RAW_QUERY,
 
     @UriMatcherContract(
-            type = ExampleEntity.class,
-            path = "/entities" )
+            type = ExampleEntity.class
+    )
     ALL_ENTITIES
 
 }
