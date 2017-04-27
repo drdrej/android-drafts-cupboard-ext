@@ -1,7 +1,5 @@
 package com.touchableheroes.drafts.db.cupboard.xt.contracts;
 
-import com.touchableheroes.drafts.db.cupboard.xt.commands.DbCommand;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -16,7 +14,7 @@ public @interface UriOperation {
     Class<?> insert() default Void.class;
     Class<?> delete() default Void.class;
 
-    ContentProviderQueryContract query();
+    QueryContract query();
 
     Class<?> update() default Void.class;
 }

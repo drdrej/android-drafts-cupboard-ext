@@ -12,7 +12,7 @@ import android.support.v4.content.Loader;
 //import com.touchableheroes.drafts.mr.blackbox.semantics.LoaderIDs;
 
 import com.touchableheroes.drafts.core.tools.EnumTool;
-import com.touchableheroes.drafts.db.cupboard.xt.contracts.ContentProviderQueryContract;
+import com.touchableheroes.drafts.db.cupboard.xt.contracts.QueryContract;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContract;
 import com.touchableheroes.drafts.db.cupboard.xt.util.ContractUriUtil;
 
@@ -54,7 +54,7 @@ public abstract class CupboardLoaderCallback<T extends Enum<T>, R>
         // TODO: Parameter-Handling ueberlegen
 
         final UriMatcherContract contract = EnumTool.withEnum(loaderId).annotation(UriMatcherContract.class);
-        final ContentProviderQueryContract query = contract.operations().query();
+        final QueryContract query = contract.operations().query();
 
         final Uri uriCall = ContractUriUtil.createQuery(loaderId);
 

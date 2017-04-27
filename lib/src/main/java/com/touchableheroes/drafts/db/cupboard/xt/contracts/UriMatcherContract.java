@@ -20,7 +20,7 @@ public @interface UriMatcherContract {
 
     UriOperation operations() default @UriOperation(
 
-            query = @ContentProviderQueryContract(
+            query = @QueryContract(
                      command = CupboardBasedQueryDbCommand.class
         )
     );
