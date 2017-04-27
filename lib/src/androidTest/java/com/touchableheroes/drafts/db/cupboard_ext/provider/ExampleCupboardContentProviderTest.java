@@ -166,4 +166,22 @@ public class ExampleCupboardContentProviderTest
         assertEquals( "Name of entry: ", results.get(0).name, entity.name);
     }
 
+
+    @Test
+    public void testQueryBrokenSql(){
+        // Test Error-Handling for production
+        Tracer.setDevMode( false );
+
+        final ExampleCupboardContentProvider provider = getProvider();
+
+        // request db content:
+        final UriTemplate uriTemplate =  ContractUriUtil.uriByState( ExampleUris.BROKEN_RAW_QUERY );
+        final Uri uriCall = uriTemplate.create();
+
+        final Cursor result = provider.query(uriCall, null, null, null, null);
+        assertNotNull( result );
+        assertEquals( "No Elements found.", 0, result.getCount() );
+
+    }
+
 }
