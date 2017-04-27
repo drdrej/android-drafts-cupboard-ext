@@ -43,6 +43,6 @@ public enum ExampleUris {
     @UriMatcherContract(
             type = ExampleEntity.class
     )
-    ALL_ENTITIES
+    ENTITIES
 
 }

@@ -56,7 +56,7 @@ public class ExampleCupboardContentProviderTest
     public void testQuery(){
         ContentProvider provider = getProvider();
 
-        final UriTemplate uriTemplate =  ContractUriUtil.uriByState( ExampleUris.ALL_ENTITIES );
+        final UriTemplate uriTemplate =  ContractUriUtil.uriByState( ExampleUris.ENTITIES );
         final Uri uriCall = uriTemplate.create();
 
         final String[] projection = null; // projection(def); // --> Map auf die Entity
@@ -101,7 +101,7 @@ public class ExampleCupboardContentProviderTest
         Uri resultUri = provider.insert(insertUri, values);
 
 // request db content:
-        final UriTemplate uriTemplate =  ContractUriUtil.uriByState( ExampleUris.ALL_ENTITIES );
+        final UriTemplate uriTemplate =  ContractUriUtil.uriByState( ExampleUris.ENTITIES );
         final Uri uriCall = uriTemplate.create();
 
         final String[] projection = null; // projection(def); // --> Map auf die Entity
