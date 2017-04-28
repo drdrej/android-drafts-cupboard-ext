@@ -10,7 +10,9 @@ import android.net.Uri;
 
 
 import com.touchableheroes.drafts.core.logger.Tracer;
+import com.touchableheroes.drafts.core.tools.ArrayTool;
 import com.touchableheroes.drafts.core.tools.EnumTool;
+import com.touchableheroes.drafts.core.tools.StringTool;
 import com.touchableheroes.drafts.db.cupboard.xt.commands.DbCommand;
 import com.touchableheroes.drafts.db.cupboard.xt.commands.InsertDbCommand;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.InsertContract;
@@ -54,10 +56,25 @@ public abstract class CupboardContentProvider extends ContentProvider {
                         final String selection,
                         final String[] selectionArgs,
                         final String sortOrder) {
+        if( hasArguments(projection, selection, sortOrder) ) {
+            return queryWithArguments( uri, projection, selection, selectionArgs, sortOrder);
+        }
+
+        return queryWithUri(uri, selectionArgs);
+    }
+
+    private Cursor queryWithUri(final Uri uri,
+                                final String[] selectionArgs) {
 
         final int matchId = this.matcherMgr.match(uri);
         final Enum contract = findEnum(matchId);
 
+        return query(contract, selectionArgs);
+    }
+
+    public Cursor query(
+            final Enum contract,
+            final String[] selectionArgs) {
         final UriMatcherContract uriMatcher = EnumTool.withEnum(contract).annotation(UriMatcherContract.class);
         final Class<? extends DbCommand> queryCmdClass = uriMatcher.operations().query().command();
 
@@ -65,15 +82,29 @@ public abstract class CupboardContentProvider extends ContentProvider {
             final Constructor<? extends DbCommand> constructor = queryCmdClass.getConstructor(SQLiteOpenHelper.class);
             final DbCommand dbCommand = constructor.newInstance(dbHelper);
 
-            return dbCommand.exec(contract,
-                    uri,
-                    projection,
-                    selection,
-                    selectionArgs,
-                    sortOrder);
+            return dbCommand.exec(contract, selectionArgs);
         } catch (final Throwable x) {
             throw new IllegalStateException("Couldn't initialize and execute DbCommand.", x);
         }
+    }
+
+    private Cursor queryWithArguments(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+        if( Tracer.isDevMode() ) {
+            throw new UnsupportedOperationException( "this method is not implemented." );
+        }
+
+        return new NoDataCursor();
+    }
+
+    protected boolean hasArguments(final String[] projection,
+                                   final String selection,
+                                   final String sortOrder) {
+        if(ArrayTool.isEmpty(projection)
+                && StringTool.isEmpty(selection)
+                && StringTool.isEmpty(sortOrder) )
+            return false;
+
+        return true;
     }
 
     public Enum findEnum(final int matchId) {

@@ -24,6 +24,7 @@ public abstract class DbCommand {
         return dbHelper.getReadableDatabase();
     }
 
+    /*
     public abstract Cursor exec(final Enum contract,
                        final Uri uri,
                        final String[] projection,
@@ -31,5 +32,10 @@ public abstract class DbCommand {
                        final String[] selectionArgs,
                        final String sortOrder
     );
+    */
+
+    public abstract Cursor exec(
+            final Enum contract,
+            final String[] selectionArgs);
 
 }

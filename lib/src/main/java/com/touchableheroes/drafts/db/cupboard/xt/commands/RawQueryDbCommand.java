@@ -12,6 +12,7 @@ import com.touchableheroes.drafts.core.tools.EnumTool;
 import com.touchableheroes.drafts.db.cupboard.xt.NoDataCursor;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.QueryContract;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContract;
+import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContractUtil;
 
 /**
  * Created by asiebert on 27.04.2017.
@@ -24,14 +25,9 @@ public class RawQueryDbCommand extends DbCommand {
 
     @Override
     public Cursor exec(final Enum contract,
-                       final Uri uri,
-                       final String[] projection,
-                       final String selection,
-                       final String[] args,
-                       final String sortOrder) {
+                       final String[] args) {
 
-        final EnumTool.EnumWrapper enumWrap = EnumTool.withEnum(contract);
-        final UriMatcherContract uriMatcherContract = enumWrap.annotation(UriMatcherContract.class);
+        final UriMatcherContract uriMatcherContract = UriMatcherContractUtil.load( contract );
 
         final QueryContract query = uriMatcherContract.operations().query();
         final String sql = query.sql();

@@ -14,10 +14,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface UriMatcherContract {
 
-    /* Class<?> type(); */
-
-    // String path();
-
     UriOperation operations() default @UriOperation(
             query = @QueryContract(
                      command = CupboardBasedQueryDbCommand.class
@@ -39,5 +35,6 @@ public @interface UriMatcherContract {
                         "/vnd.de.openminds.lentitems_items";
                         */
     String mimeType() default "";
+
 
 }

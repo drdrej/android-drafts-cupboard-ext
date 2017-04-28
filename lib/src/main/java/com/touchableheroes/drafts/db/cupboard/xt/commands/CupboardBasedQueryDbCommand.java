@@ -8,14 +8,21 @@ import android.net.Uri;
 import com.touchableheroes.drafts.core.logger.Tracer;
 import com.touchableheroes.drafts.core.tools.EnumTool;
 import com.touchableheroes.drafts.db.cupboard.xt.NoDataCursor;
+import com.touchableheroes.drafts.db.cupboard.xt.contracts.QueryContract;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContract;
+import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContractUtil;
+import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriOperation;
+
+import java.lang.annotation.Annotation;
 
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
 /**
  * Created by asiebert on 26.04.2017.
  */
-public class CupboardBasedQueryDbCommand extends DbCommand {
+public class CupboardBasedQueryDbCommand
+        extends DbCommand {
+
 
     public CupboardBasedQueryDbCommand(final SQLiteOpenHelper dbHelper) {
         super(dbHelper);
@@ -23,16 +30,12 @@ public class CupboardBasedQueryDbCommand extends DbCommand {
 
     @Override
     public Cursor exec(final Enum contract,
-                       final Uri uri,
-                       final String[] projection,
-                       final String selection,
-                       final String[] selectionArgs,
-                       final String sortOrder
-    ) {
+                       final String[] selectionArgs ) {
         final SQLiteDatabase db = readble();
-        final Class<? extends Object> clz = EnumTool.withEnum(contract)
-                .annotation(UriMatcherContract.class)
-                .operations().query().entity();
+
+        final UriMatcherContract uriContract = UriMatcherContractUtil.load( contract );
+        final QueryContract query = uriContract.operations().query();
+        final Class<? extends Object> clz = query.entity();
 
         if( clz == Void.class ) { //
             if( Tracer.isDevMode() ) {
@@ -43,9 +46,9 @@ public class CupboardBasedQueryDbCommand extends DbCommand {
         }
 
         return cupboard().withDatabase(db).query(clz).
-                withProjection(projection).
-                withSelection(selection, selectionArgs).
-                orderBy(sortOrder).
+                withProjection( query.projection() ).
+                withSelection( query.selection(), selectionArgs).
+                orderBy(query.orderBy()).
                 getCursor();
     }
 }
