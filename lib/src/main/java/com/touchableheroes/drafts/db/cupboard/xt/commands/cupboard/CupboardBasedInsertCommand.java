@@ -39,7 +39,7 @@ public class CupboardBasedInsertCommand
             }
         }
 
-        if (id == 0) {
+        if (id < 1) {
             return new long[] { cupboard().withDatabase( writable() ).put( entity, values) };
         } else {
             cupboard().withDatabase( writable() ).update(entity, values);
