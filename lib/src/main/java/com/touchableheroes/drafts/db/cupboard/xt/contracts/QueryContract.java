@@ -1,6 +1,6 @@
 package com.touchableheroes.drafts.db.cupboard.xt.contracts;
 
-import com.touchableheroes.drafts.db.cupboard.xt.commands.DbCommand;
+import com.touchableheroes.drafts.db.cupboard.xt.commands.QueryCommand;
 
 /**
  * Created by asiebert on 26.04.2017.
@@ -14,7 +14,7 @@ public @interface QueryContract {
 
     String orderBy() default "";
 
-    Class<? extends DbCommand> command();
+    Class<? extends QueryCommand> command();
 
     String sql() default "";
 

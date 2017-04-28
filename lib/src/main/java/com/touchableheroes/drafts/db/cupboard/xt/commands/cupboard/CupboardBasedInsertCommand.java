@@ -2,11 +2,10 @@ package com.touchableheroes.drafts.db.cupboard.xt.commands.cupboard;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 
 import com.touchableheroes.drafts.core.logger.Tracer;
 import com.touchableheroes.drafts.core.tools.EnumTool;
-import com.touchableheroes.drafts.db.cupboard.xt.commands.InsertDbCommand;
+import com.touchableheroes.drafts.db.cupboard.xt.commands.InsertCommand;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.InsertContract;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContract;
 
@@ -16,7 +15,7 @@ import static nl.qbusict.cupboard.CupboardFactory.cupboard;
  * Created by asiebert on 27.04.2017.
  */
 public class CupboardBasedInsertCommand
-       extends InsertDbCommand {
+       extends InsertCommand {
 
     public CupboardBasedInsertCommand(final SQLiteDatabase db) {
         super(db);

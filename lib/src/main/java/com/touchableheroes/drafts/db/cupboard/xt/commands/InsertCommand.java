@@ -8,11 +8,11 @@ import android.net.Uri;
 /**
  * Created by asiebert on 27.04.2017.
  */
-public abstract class InsertDbCommand {
+public abstract class InsertCommand {
 
     private final SQLiteDatabase db;
 
-    public InsertDbCommand(final SQLiteDatabase db) {
+    public InsertCommand(final SQLiteDatabase db) {
         this.db = db;
     }
 

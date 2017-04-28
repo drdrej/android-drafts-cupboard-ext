@@ -1,6 +1,6 @@
 package com.touchableheroes.drafts.db.cupboard.xt.contracts;
 
-import com.touchableheroes.drafts.db.cupboard.xt.commands.RawQueryDbCommand;
+import com.touchableheroes.drafts.db.cupboard.xt.commands.RawQueryQueryCommand;
 import com.touchableheroes.drafts.db.cupboard.xt.commands.cupboard.CupboardBasedInsertCommand;
 
 import java.lang.annotation.ElementType;
@@ -20,7 +20,7 @@ public @interface UriOperation {
     );
 
     QueryContract query() default @QueryContract(
-            command = RawQueryDbCommand.class
+            command = RawQueryQueryCommand.class
     );
 
     Class<?> update() default Void.class;

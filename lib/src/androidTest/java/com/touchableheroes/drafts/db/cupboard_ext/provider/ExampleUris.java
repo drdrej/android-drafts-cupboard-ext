@@ -1,7 +1,7 @@
 package com.touchableheroes.drafts.db.cupboard_ext.provider;
 
-import com.touchableheroes.drafts.db.cupboard.xt.commands.CupboardBasedQueryDbCommand;
-import com.touchableheroes.drafts.db.cupboard.xt.commands.RawQueryDbCommand;
+import com.touchableheroes.drafts.db.cupboard.xt.commands.CupboardBasedQueryQueryCommand;
+import com.touchableheroes.drafts.db.cupboard.xt.commands.RawQueryQueryCommand;
 import com.touchableheroes.drafts.db.cupboard.xt.commands.cupboard.CupboardBasedInsertCommand;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.DbContract;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.InsertContract;
@@ -28,7 +28,7 @@ public enum ExampleUris {
                             command = CupboardBasedInsertCommand.class
                     ),
                     query = @QueryContract(
-                            command = RawQueryDbCommand.class,
+                            command = RawQueryQueryCommand.class,
                             sql = "SELECT * FROM ExampleEntity"
                     )
             )
@@ -38,7 +38,7 @@ public enum ExampleUris {
     @UriMatcherContract(
             operations = @UriOperation(
                     query = @QueryContract(
-                            command = CupboardBasedQueryDbCommand.class,
+                            command = CupboardBasedQueryQueryCommand.class,
                             entity = ExampleEntity.class
                     )
             )
@@ -48,7 +48,7 @@ public enum ExampleUris {
     @UriMatcherContract(
             operations = @UriOperation(
                     query = @QueryContract(
-                            command = RawQueryDbCommand.class,
+                            command = RawQueryQueryCommand.class,
                             sql = "SELECT * FROM a" // table not exists
                     )
             )
@@ -58,7 +58,7 @@ public enum ExampleUris {
     @UriMatcherContract(
             operations = @UriOperation(
                     query = @QueryContract(
-                            command = CupboardBasedQueryDbCommand.class,
+                            command = CupboardBasedQueryQueryCommand.class,
                             entity  = ExampleEntity.class
                     )
             )

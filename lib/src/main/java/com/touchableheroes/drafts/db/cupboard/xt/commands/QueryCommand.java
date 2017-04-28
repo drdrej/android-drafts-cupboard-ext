@@ -8,11 +8,11 @@ import android.net.Uri;
 /**
  * Created by asiebert on 26.04.2017.
  */
-public abstract class DbCommand {
+public abstract class QueryCommand {
 
     private final SQLiteOpenHelper dbHelper;
 
-    public DbCommand(final SQLiteOpenHelper dbHelper) {
+    public QueryCommand(final SQLiteOpenHelper dbHelper) {
         this.dbHelper = dbHelper;
     }
 

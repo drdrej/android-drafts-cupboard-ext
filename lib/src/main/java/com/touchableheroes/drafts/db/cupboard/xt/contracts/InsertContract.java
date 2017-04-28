@@ -1,7 +1,6 @@
 package com.touchableheroes.drafts.db.cupboard.xt.contracts;
 
-import com.touchableheroes.drafts.db.cupboard.xt.commands.DbCommand;
-import com.touchableheroes.drafts.db.cupboard.xt.commands.InsertDbCommand;
+import com.touchableheroes.drafts.db.cupboard.xt.commands.InsertCommand;
 
 /**
  * Created by asiebert on 27.04.2017.
@@ -11,5 +10,5 @@ public @interface InsertContract {
 
     Class<?> entity() default Void.class;
 
-    Class<? extends InsertDbCommand> command();
+    Class<? extends InsertCommand> command();
 }

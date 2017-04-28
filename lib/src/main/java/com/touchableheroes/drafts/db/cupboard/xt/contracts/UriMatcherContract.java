@@ -1,6 +1,6 @@
 package com.touchableheroes.drafts.db.cupboard.xt.contracts;
 
-import com.touchableheroes.drafts.db.cupboard.xt.commands.CupboardBasedQueryDbCommand;
+import com.touchableheroes.drafts.db.cupboard.xt.commands.CupboardBasedQueryQueryCommand;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -16,7 +16,7 @@ public @interface UriMatcherContract {
 
     UriOperation operations() default @UriOperation(
             query = @QueryContract(
-                     command = CupboardBasedQueryDbCommand.class
+                     command = CupboardBasedQueryQueryCommand.class
         )
     );
 

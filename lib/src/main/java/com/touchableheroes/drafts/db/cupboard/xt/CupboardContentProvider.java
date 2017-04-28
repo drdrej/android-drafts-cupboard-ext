@@ -13,15 +13,12 @@ import com.touchableheroes.drafts.core.logger.Tracer;
 import com.touchableheroes.drafts.core.tools.ArrayTool;
 import com.touchableheroes.drafts.core.tools.EnumTool;
 import com.touchableheroes.drafts.core.tools.StringTool;
-import com.touchableheroes.drafts.db.cupboard.xt.commands.DbCommand;
-import com.touchableheroes.drafts.db.cupboard.xt.commands.InsertDbCommand;
-import com.touchableheroes.drafts.db.cupboard.xt.contracts.InsertContract;
+import com.touchableheroes.drafts.db.cupboard.xt.commands.QueryCommand;
+import com.touchableheroes.drafts.db.cupboard.xt.commands.InsertCommand;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContract;
+import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContractUtil;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-
-import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
 /**
  * Created by asiebert on 28.02.16.
@@ -75,15 +72,15 @@ public abstract class CupboardContentProvider extends ContentProvider {
             final Enum contract,
             final String[] selectionArgs) {
         final UriMatcherContract uriMatcher = EnumTool.withEnum(contract).annotation(UriMatcherContract.class);
-        final Class<? extends DbCommand> queryCmdClass = uriMatcher.operations().query().command();
+        final Class<? extends QueryCommand> queryCmdClass = uriMatcher.operations().query().command();
 
         try {
-            final Constructor<? extends DbCommand> constructor = queryCmdClass.getConstructor(SQLiteOpenHelper.class);
-            final DbCommand dbCommand = constructor.newInstance(dbHelper);
+            final Constructor<? extends QueryCommand> constructor = queryCmdClass.getConstructor(SQLiteOpenHelper.class);
+            final QueryCommand queryCommand = constructor.newInstance(dbHelper);
 
-            return dbCommand.exec(contract, selectionArgs);
+            return queryCommand.exec(contract, selectionArgs);
         } catch (final Throwable x) {
-            throw new IllegalStateException("Couldn't initialize and execute DbCommand.", x);
+            throw new IllegalStateException("Couldn't initialize and execute QueryCommand.", x);
         }
     }
 
@@ -130,11 +127,9 @@ public abstract class CupboardContentProvider extends ContentProvider {
                       final ContentValues values) {
 
         final SQLiteDatabase db = dbHelper.getWritableDatabase();
-
         final Enum uriEnum = identify(uri);
-
-        final UriMatcherContract uriMatcher = EnumTool.withEnum(uriEnum).annotation(UriMatcherContract.class);
-        final Class<? extends InsertDbCommand> cmdClass = uriMatcher.operations().insert().command();
+        final UriMatcherContract uriMatcher = UriMatcherContractUtil.load(uriEnum);
+        final Class<? extends InsertCommand> cmdClass = uriMatcher.operations().insert().command();
 
         if( cmdClass.isAssignableFrom(Void.class) ) {
             if(Tracer.isDevMode()) {
@@ -145,8 +140,8 @@ public abstract class CupboardContentProvider extends ContentProvider {
         }
 
         try {
-            final Constructor<? extends InsertDbCommand> constructor = cmdClass.getConstructor(SQLiteDatabase.class);
-            final InsertDbCommand dbCommand = constructor.newInstance(dbHelper.getWritableDatabase());
+            final Constructor<? extends InsertCommand> constructor = cmdClass.getConstructor(SQLiteDatabase.class);
+            final InsertCommand dbCommand = constructor.newInstance(dbHelper.getWritableDatabase());
 
             final long[] newIds = dbCommand.exec(uriEnum, -1, values );
 
@@ -159,7 +154,7 @@ public abstract class CupboardContentProvider extends ContentProvider {
                     throw new UnsupportedOperationException("Missing implementation for uri for many generated objects in one insertdbcommand. Please fix, now its time!");
             }
         } catch (final Throwable x) {
-            throw new IllegalStateException("Couldn't initialize and execute DbCommand.", x);
+            throw new IllegalStateException("Couldn't initialize and execute QueryCommand.", x);
         }
     }
 
@@ -170,8 +165,42 @@ public abstract class CupboardContentProvider extends ContentProvider {
 
 
     @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs) {
-       throw new UnsupportedOperationException();
+    public int delete(final Uri uri,
+                      final String selection,
+                      final String[] selectionArgs) {
+        final SQLiteDatabase db = dbHelper.getWritableDatabase();
+        final Enum uriEnum = identify(uri);
+/*
+        final UriMatcherContract uriMatcher = UriMatcherContractUtil.load(uriEnum);
+        final Class<? extends DeleteCommand> cmdClass = uriMatcher.operations().insert().command();
+
+        if( cmdClass.isAssignableFrom(Void.class) ) {
+            if(Tracer.isDevMode()) {
+                throw new UnsupportedOperationException("No ");
+            } else {
+                return uri;
+            }
+        }
+
+        try {
+            final Constructor<? extends InsertCommand> constructor = cmdClass.getConstructor(SQLiteDatabase.class);
+            final InsertCommand dbCommand = constructor.newInstance(dbHelper.getWritableDatabase());
+
+            final long[] newIds = dbCommand.exec(uriEnum, -1, values );
+
+            switch( newIds.length ) {
+                case 0:
+                    return uri; // same uri because nothing created
+                case 1:
+                    return ContentUris.withAppendedId(uri, newIds[0]);
+                default:
+                    throw new UnsupportedOperationException("Missing implementation for uri for many generated objects in one insertdbcommand. Please fix, now its time!");
+            }
+        } catch (final Throwable x) {
+            throw new IllegalStateException("Couldn't initialize and execute QueryCommand.", x);
+        }
+        */
+        throw new UnsupportedOperationException();
     }
 
     @Override
