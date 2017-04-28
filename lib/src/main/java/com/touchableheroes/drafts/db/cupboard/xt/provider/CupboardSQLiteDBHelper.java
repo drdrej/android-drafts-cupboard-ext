@@ -1,15 +1,13 @@
-package com.touchableheroes.drafts.db.cupboard.xt;
+package com.touchableheroes.drafts.db.cupboard.xt.provider;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.test.RenamingDelegatingContext;
 
 
 import com.touchableheroes.drafts.core.tools.EnumTool;
+import com.touchableheroes.drafts.db.cupboard.xt.config.DbConfig;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.DbContract;
-
-import java.util.Iterator;
 
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 

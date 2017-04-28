@@ -1,4 +1,4 @@
-package com.touchableheroes.drafts.db.cupboard.xt;
+package com.touchableheroes.drafts.db.cupboard.xt.provider;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -13,6 +13,8 @@ import com.touchableheroes.drafts.core.logger.Tracer;
 import com.touchableheroes.drafts.core.tools.ArrayTool;
 import com.touchableheroes.drafts.core.tools.EnumTool;
 import com.touchableheroes.drafts.core.tools.StringTool;
+import com.touchableheroes.drafts.db.cupboard.xt.config.DbConfig;
+import com.touchableheroes.drafts.db.cupboard.xt.defaults.NoDataCursor;
 import com.touchableheroes.drafts.db.cupboard.xt.commands.QueryCommand;
 import com.touchableheroes.drafts.db.cupboard.xt.commands.InsertCommand;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContract;

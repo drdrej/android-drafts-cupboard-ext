@@ -1,10 +1,11 @@
-package com.touchableheroes.drafts.db.cupboard.xt;
+package com.touchableheroes.drafts.db.cupboard.xt.provider;
 
 import android.content.UriMatcher;
 import android.net.Uri;
 import android.util.Log;
 
 import com.touchableheroes.drafts.core.tools.EnumTool;
+import com.touchableheroes.drafts.db.cupboard.xt.config.DbConfig;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContract;
 
 import java.util.Iterator;

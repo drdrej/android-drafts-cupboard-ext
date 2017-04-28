@@ -1,4 +1,4 @@
-package com.touchableheroes.drafts.db.cupboard.xt;
+package com.touchableheroes.drafts.db.cupboard.xt.config;
 
 import com.touchableheroes.drafts.core.tools.EnumTool;
 import com.touchableheroes.drafts.db.cupboard_ext.R;

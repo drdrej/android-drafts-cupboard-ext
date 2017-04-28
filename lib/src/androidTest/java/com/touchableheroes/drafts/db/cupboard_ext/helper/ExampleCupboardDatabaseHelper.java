@@ -4,9 +4,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;
 
-import com.touchableheroes.drafts.db.cupboard.xt.CupboardSQLiteDBHelper;
-import com.touchableheroes.drafts.db.cupboard.xt.DbConfig;
-import com.touchableheroes.drafts.db.cupboard_ext.provider.ExampleEntity;
+import com.touchableheroes.drafts.db.cupboard.xt.provider.CupboardSQLiteDBHelper;
 import com.touchableheroes.drafts.db.cupboard_ext.provider.ExampleUris;
 
 import org.junit.After;

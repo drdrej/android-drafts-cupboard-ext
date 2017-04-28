@@ -1,8 +1,10 @@
-package com.touchableheroes.drafts.db.cupboard.xt;
+package com.touchableheroes.drafts.db.cupboard.xt.provider;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
+
+import com.touchableheroes.drafts.db.cupboard.xt.config.DbConfig;
 
 /**
  * Created by asiebert on 28.04.2017.

@@ -1,4 +1,4 @@
-package com.touchableheroes.drafts.db.cupboard.xt;
+package com.touchableheroes.drafts.db.cupboard.xt.defaults;
 
 import android.content.ContentResolver;
 import android.database.CharArrayBuffer;
