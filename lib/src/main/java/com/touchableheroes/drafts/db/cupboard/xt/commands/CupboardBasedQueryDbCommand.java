@@ -15,9 +15,7 @@ import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 /**
  * Created by asiebert on 26.04.2017.
  */
-
 public class CupboardBasedQueryDbCommand extends DbCommand {
-
 
     public CupboardBasedQueryDbCommand(final SQLiteOpenHelper dbHelper) {
         super(dbHelper);
@@ -36,7 +34,7 @@ public class CupboardBasedQueryDbCommand extends DbCommand {
                 .annotation(UriMatcherContract.class)
                 .operations().query().entity();
 
-        if( clz == Void.class ) {
+        if( clz == Void.class ) { //
             if( Tracer.isDevMode() ) {
                 throw new IllegalStateException( "Couldn'T execute query, missing entity (is Void.class) in [enum = " + contract.name() + "]" );
             } else {
