@@ -66,8 +66,7 @@ public abstract class CupboardContentProvider extends ContentProvider {
     private Cursor queryWithUri(final Uri uri,
                                 final String[] selectionArgs) {
 
-        final int matchId = this.matcherMgr.match(uri);
-        final Enum contract = findEnum(matchId);
+        final Enum contract = identify(uri);
 
         return query(contract, selectionArgs);
     }
@@ -114,9 +113,7 @@ public abstract class CupboardContentProvider extends ContentProvider {
     @Override
     public String getType(final Uri uri) {
         try {
-            final int matchId = matcherMgr.match(uri);
-            final Enum contract = findEnum(matchId);
-
+            final Enum contract = identify(uri);
             final String rval = EnumTool.withEnum(contract).annotation(UriMatcherContract.class).mimeType();
 
             if( rval.length() < 1 )
@@ -134,8 +131,7 @@ public abstract class CupboardContentProvider extends ContentProvider {
 
         final SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        final int matchId = matcherMgr.match(uri);
-        final Enum uriEnum = findEnum(matchId);
+        final Enum uriEnum = identify(uri);
 
         final UriMatcherContract uriMatcher = EnumTool.withEnum(uriEnum).annotation(UriMatcherContract.class);
         final Class<? extends InsertDbCommand> cmdClass = uriMatcher.operations().insert().command();
@@ -165,6 +161,11 @@ public abstract class CupboardContentProvider extends ContentProvider {
         } catch (final Throwable x) {
             throw new IllegalStateException("Couldn't initialize and execute DbCommand.", x);
         }
+    }
+
+    private Enum identify(Uri uri) {
+        final int matchId = matcherMgr.match(uri);
+        return findEnum(matchId);
     }
 
 
