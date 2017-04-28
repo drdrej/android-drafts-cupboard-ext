@@ -13,6 +13,7 @@ import com.touchableheroes.drafts.core.logger.Tracer;
 import com.touchableheroes.drafts.core.tools.ArrayTool;
 import com.touchableheroes.drafts.core.tools.EnumTool;
 import com.touchableheroes.drafts.core.tools.StringTool;
+import com.touchableheroes.drafts.db.cupboard.xt.commands.DeleteCommand;
 import com.touchableheroes.drafts.db.cupboard.xt.config.DbConfig;
 import com.touchableheroes.drafts.db.cupboard.xt.defaults.NoDataCursor;
 import com.touchableheroes.drafts.db.cupboard.xt.commands.QueryCommand;
@@ -172,37 +173,26 @@ public abstract class CupboardContentProvider extends ContentProvider {
                       final String[] selectionArgs) {
         final SQLiteDatabase db = dbHelper.getWritableDatabase();
         final Enum uriEnum = identify(uri);
-/*
+
         final UriMatcherContract uriMatcher = UriMatcherContractUtil.load(uriEnum);
-        final Class<? extends DeleteCommand> cmdClass = uriMatcher.operations().insert().command();
+        final Class<? extends DeleteCommand> cmdClass = uriMatcher.operations().delete().command();
 
         if( cmdClass.isAssignableFrom(Void.class) ) {
             if(Tracer.isDevMode()) {
                 throw new UnsupportedOperationException("No ");
             } else {
-                return uri;
+                return 0;
             }
         }
 
         try {
-            final Constructor<? extends InsertCommand> constructor = cmdClass.getConstructor(SQLiteDatabase.class);
-            final InsertCommand dbCommand = constructor.newInstance(dbHelper.getWritableDatabase());
+            final Constructor<? extends DeleteCommand> constructor = cmdClass.getConstructor(SQLiteDatabase.class);
+            final DeleteCommand dbCommand = constructor.newInstance(dbHelper.getWritableDatabase());
 
-            final long[] newIds = dbCommand.exec(uriEnum, -1, values );
-
-            switch( newIds.length ) {
-                case 0:
-                    return uri; // same uri because nothing created
-                case 1:
-                    return ContentUris.withAppendedId(uri, newIds[0]);
-                default:
-                    throw new UnsupportedOperationException("Missing implementation for uri for many generated objects in one insertdbcommand. Please fix, now its time!");
-            }
+            return dbCommand.exec(uriEnum, selectionArgs);
         } catch (final Throwable x) {
             throw new IllegalStateException("Couldn't initialize and execute QueryCommand.", x);
         }
-        */
-        throw new UnsupportedOperationException();
     }
 
     @Override

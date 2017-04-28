@@ -18,6 +18,6 @@ public abstract class DeleteCommand {
         return writable;
     }
 
-    public abstract void exec(final Enum uri,
+    public abstract int exec(final Enum uri,
                      final String[] selectionArgs );
 }

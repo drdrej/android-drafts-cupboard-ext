@@ -17,7 +17,7 @@ public class CupboardBasedDeleteCommand
     }
 
     @Override
-    public void exec(
+    public int exec(
             final Enum uri,
             final String[] selectionArgs) {
         // cupboard().withDatabase(writable()).

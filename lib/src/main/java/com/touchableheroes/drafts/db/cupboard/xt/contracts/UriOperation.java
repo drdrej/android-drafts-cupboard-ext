@@ -1,5 +1,7 @@
 package com.touchableheroes.drafts.db.cupboard.xt.contracts;
 
+import com.touchableheroes.drafts.db.cupboard.xt.commands.DeleteCommand;
+import com.touchableheroes.drafts.db.cupboard.xt.commands.cupboard.CupboardBasedDeleteCommand;
 import com.touchableheroes.drafts.db.cupboard.xt.commands.raw.RawQueryQueryCommand;
 import com.touchableheroes.drafts.db.cupboard.xt.commands.cupboard.CupboardBasedInsertCommand;
 
@@ -25,6 +27,8 @@ public @interface UriOperation {
 
     Class<?> update() default Void.class;
 
-    Class<?> delete() default Void.class;
+    DeleteContract delete() default @DeleteContract(
+            command = CupboardBasedDeleteCommand.class
+    );
 
 }

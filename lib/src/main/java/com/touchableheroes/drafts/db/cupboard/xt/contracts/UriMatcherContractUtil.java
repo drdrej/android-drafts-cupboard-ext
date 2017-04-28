@@ -33,7 +33,7 @@ public class UriMatcherContractUtil {
         }
 
         @Override
-        public Class<?> delete() {
+        public DeleteContract delete() {
             return null;
         }
     };
