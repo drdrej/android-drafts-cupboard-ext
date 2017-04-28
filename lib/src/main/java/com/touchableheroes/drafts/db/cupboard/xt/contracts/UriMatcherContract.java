@@ -1,6 +1,6 @@
 package com.touchableheroes.drafts.db.cupboard.xt.contracts;
 
-import com.touchableheroes.drafts.db.cupboard.xt.commands.CupboardBasedQueryQueryCommand;
+import com.touchableheroes.drafts.db.cupboard.xt.commands.cupboard.CupboardBasedQueryQueryCommand;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

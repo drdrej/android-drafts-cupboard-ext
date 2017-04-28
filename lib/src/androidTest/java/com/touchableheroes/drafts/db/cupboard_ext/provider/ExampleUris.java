@@ -1,7 +1,7 @@
 package com.touchableheroes.drafts.db.cupboard_ext.provider;
 
-import com.touchableheroes.drafts.db.cupboard.xt.commands.CupboardBasedQueryQueryCommand;
-import com.touchableheroes.drafts.db.cupboard.xt.commands.RawQueryQueryCommand;
+import com.touchableheroes.drafts.db.cupboard.xt.commands.cupboard.CupboardBasedQueryQueryCommand;
+import com.touchableheroes.drafts.db.cupboard.xt.commands.raw.RawQueryQueryCommand;
 import com.touchableheroes.drafts.db.cupboard.xt.commands.cupboard.CupboardBasedInsertCommand;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.DbContract;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.InsertContract;

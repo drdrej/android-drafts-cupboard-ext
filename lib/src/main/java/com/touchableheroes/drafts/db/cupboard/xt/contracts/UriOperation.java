@@ -1,6 +1,6 @@
 package com.touchableheroes.drafts.db.cupboard.xt.contracts;
 
-import com.touchableheroes.drafts.db.cupboard.xt.commands.RawQueryQueryCommand;
+import com.touchableheroes.drafts.db.cupboard.xt.commands.raw.RawQueryQueryCommand;
 import com.touchableheroes.drafts.db.cupboard.xt.commands.cupboard.CupboardBasedInsertCommand;
 
 import java.lang.annotation.ElementType;

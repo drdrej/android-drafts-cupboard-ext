@@ -1,4 +1,4 @@
-package com.touchableheroes.drafts.db.cupboard.xt.commands;
+package com.touchableheroes.drafts.db.cupboard.xt.commands.raw;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.touchableheroes.drafts.core.logger.Tracer;
 import com.touchableheroes.drafts.db.cupboard.xt.NoDataCursor;
+import com.touchableheroes.drafts.db.cupboard.xt.commands.QueryCommand;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.QueryContract;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContract;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContractUtil;
