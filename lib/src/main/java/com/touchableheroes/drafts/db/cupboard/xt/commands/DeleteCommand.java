@@ -1,12 +1,23 @@
 package com.touchableheroes.drafts.db.cupboard.xt.commands;
 
+import android.database.sqlite.SQLiteDatabase;
+
 /**
  * Created by asiebert on 28.04.2017.
  */
 
-public class DeleteCommand {
+public abstract class DeleteCommand {
 
-    public void exec() {
+    private final SQLiteDatabase writable;
 
+    public DeleteCommand(final SQLiteDatabase writable) {
+        this.writable = writable;
     }
+
+    public SQLiteDatabase writable() {
+        return writable;
+    }
+
+    public abstract void exec(final Enum uri,
+                     final String[] selectionArgs );
 }

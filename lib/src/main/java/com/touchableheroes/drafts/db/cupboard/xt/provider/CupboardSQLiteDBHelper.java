@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 
+import com.touchableheroes.drafts.core.logger.Tracer;
 import com.touchableheroes.drafts.core.tools.EnumTool;
 import com.touchableheroes.drafts.db.cupboard.xt.config.DbConfig;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.DbContract;
@@ -18,19 +19,15 @@ public class CupboardSQLiteDBHelper extends SQLiteOpenHelper {
 
     private DbConfig config;
 
-
-    @Deprecated
-    public CupboardSQLiteDBHelper(final Context ctx,
+    CupboardSQLiteDBHelper(final Context ctx,
                                   final DbConfig config) {
         super(ctx, config.name(), null, config.version());
-
         this.config = config;
         bindEntities();
     }
 
     public CupboardSQLiteDBHelper(final Context ctx,
                                   final Class<? extends Enum> type) {
-
         this( ctx, createDbConfig( type ) );
     }
 
@@ -59,12 +56,12 @@ public class CupboardSQLiteDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // dev mode:
-        cupboard().withDatabase(db).dropAllTables();
-        cupboard().withDatabase(db).createTables();
-
-        // prod mode:
-        // cupboard().withDatabase(db).upgradeTables();
+        if (Tracer.isDevMode()) {
+            cupboard().withDatabase(db).dropAllTables();
+            cupboard().withDatabase(db).createTables();
+        } else {
+            cupboard().withDatabase(db).upgradeTables();
+        }
     }
 
 }
