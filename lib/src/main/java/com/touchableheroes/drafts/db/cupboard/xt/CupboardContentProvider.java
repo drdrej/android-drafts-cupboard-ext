@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
 
+import com.touchableheroes.drafts.core.logger.Tracer;
 import com.touchableheroes.drafts.core.tools.EnumTool;
 import com.touchableheroes.drafts.db.cupboard.xt.commands.DbCommand;
 import com.touchableheroes.drafts.db.cupboard.xt.commands.InsertDbCommand;
@@ -31,20 +32,16 @@ public abstract class CupboardContentProvider extends ContentProvider {
 
     private UriMatcherManager matcherMgr = new UriMatcherManager();
 
-    private static final Object LOCK = new Object();
-
     public CupboardContentProvider( final DbConfig config ) {
        this.config = config;
     }
 
     @Override
     public boolean onCreate() {
-        synchronized( LOCK ) {
-            dbHelper = new CupboardSQLiteDBHelper(getContext(), config);
-            matcherMgr.registerUris( getConfig() );
+        dbHelper = new CupboardSQLiteDBHelper(getContext(), config);
+        matcherMgr.registerUris( getConfig() );
 
-            return true;
-        }
+        return true;
     }
 
     public DbConfig getConfig() {
@@ -57,26 +54,25 @@ public abstract class CupboardContentProvider extends ContentProvider {
                         final String selection,
                         final String[] selectionArgs,
                         final String sortOrder) {
-        synchronized (LOCK) {
-            final int matchId = this.matcherMgr.match(uri);
-            final Enum contract = findEnum(matchId);
 
-            final UriMatcherContract uriMatcher = EnumTool.withEnum(contract).annotation(UriMatcherContract.class);
-            final Class<? extends DbCommand> queryCmdClass = uriMatcher.operations().query().command();
+        final int matchId = this.matcherMgr.match(uri);
+        final Enum contract = findEnum(matchId);
 
-            try {
-                final Constructor<? extends DbCommand> constructor = queryCmdClass.getConstructor(SQLiteOpenHelper.class);
-                final DbCommand dbCommand = constructor.newInstance(dbHelper);
+        final UriMatcherContract uriMatcher = EnumTool.withEnum(contract).annotation(UriMatcherContract.class);
+        final Class<? extends DbCommand> queryCmdClass = uriMatcher.operations().query().command();
 
-                return dbCommand.exec(contract,
-                        uri,
-                        projection,
-                        selection,
-                        selectionArgs,
-                        sortOrder);
-            } catch (final Throwable x) {
-                throw new IllegalStateException("Couldn't initialize and execute DbCommand.", x);
-            }
+        try {
+            final Constructor<? extends DbCommand> constructor = queryCmdClass.getConstructor(SQLiteOpenHelper.class);
+            final DbCommand dbCommand = constructor.newInstance(dbHelper);
+
+            return dbCommand.exec(contract,
+                    uri,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    sortOrder);
+        } catch (final Throwable x) {
+            throw new IllegalStateException("Couldn't initialize and execute DbCommand.", x);
         }
     }
 
@@ -105,14 +101,6 @@ public abstract class CupboardContentProvider extends ContentProvider {
     public Uri insert(final Uri uri,
                       final ContentValues values) {
 
-        synchronized (LOCK) {
-            return doInsert(uri, values);
-        }
-    }
-
-
-    private Uri doInsert(final Uri uri,
-                         final ContentValues values) {
         final SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         final int matchId = matcherMgr.match(uri);
@@ -120,11 +108,15 @@ public abstract class CupboardContentProvider extends ContentProvider {
 
         final UriMatcherContract uriMatcher = EnumTool.withEnum(uriEnum).annotation(UriMatcherContract.class);
         final Class<? extends InsertDbCommand> cmdClass = uriMatcher.operations().insert().command();
-/*
-        if( cmdClass == Void.class ) {
-            throw new UnsupportedOperationException( "No " );
+
+        if( cmdClass.isAssignableFrom(Void.class) ) {
+            if(Tracer.isDevMode()) {
+                throw new UnsupportedOperationException("No ");
+            } else {
+                return uri;
+            }
         }
-*/
+
         try {
             final Constructor<? extends InsertDbCommand> constructor = cmdClass.getConstructor(SQLiteDatabase.class);
             final InsertDbCommand dbCommand = constructor.newInstance(dbHelper.getWritableDatabase());
@@ -147,18 +139,12 @@ public abstract class CupboardContentProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        synchronized (LOCK) {
-            // return cupboard().withDatabase(db).delete(Channel.class, selection, selectionArgs);
-        }
-
-        return 0;
+       throw new UnsupportedOperationException();
     }
 
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        synchronized (LOCK) {
-                    // return cupboard().withDatabase(db).update(clz, values, selection, selectionArgs);
-        }
-        return 0;
+        throw new UnsupportedOperationException();
     }
+
 }
