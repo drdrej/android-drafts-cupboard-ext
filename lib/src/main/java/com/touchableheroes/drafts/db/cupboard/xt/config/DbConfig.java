@@ -1,6 +1,7 @@
 package com.touchableheroes.drafts.db.cupboard.xt.config;
 
 import com.touchableheroes.drafts.core.tools.EnumTool;
+import com.touchableheroes.drafts.db.cupboard.xt.contracts.DbContract;
 import com.touchableheroes.drafts.db.cupboard_ext.R;
 
 import java.util.Arrays;
@@ -53,6 +54,12 @@ public class DbConfig {
         final Object[] objects = values.toArray();
 
         return (Enum) objects[ uriId ];
+    }
+
+
+    public static DbConfig from(final Class<Enum> apiContract) {
+        final DbContract db = EnumTool.withEnum(apiContract).annotation(DbContract.class);
+        return new DbConfig( db.name(), db.version(), db.entities(), apiContract );
     }
 
 }

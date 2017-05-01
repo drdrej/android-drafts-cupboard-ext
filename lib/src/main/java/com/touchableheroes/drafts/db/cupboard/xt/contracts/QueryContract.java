@@ -23,4 +23,6 @@ public @interface QueryContract {
     String sql() default "";
 
     Class<? extends Object> entity() default Void.class;
+
+    String[] args() default {};
 }

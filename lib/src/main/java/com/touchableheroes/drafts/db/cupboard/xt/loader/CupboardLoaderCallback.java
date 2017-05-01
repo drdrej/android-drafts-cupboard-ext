@@ -14,7 +14,9 @@ import android.support.v4.content.Loader;
 import com.touchableheroes.drafts.core.tools.EnumTool;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.QueryContract;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContract;
+import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContractUtil;
 import com.touchableheroes.drafts.db.cupboard.xt.util.ContractUriUtil;
+import com.touchableheroes.drafts.db.cupboard.xt.util.SelectionArgsTool;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -33,13 +35,15 @@ public abstract class CupboardLoaderCallback<T extends Enum<T>, R>
 
     private final T type;
     private final Context ctx;
+    private final String[] queryArgs;
 
     public CupboardLoaderCallback(final T type,
-                                  final Context ctx) {
+                                  final Context ctx,
+                                  final String[] queryArgs) {
         this.type  = type;
         this.ctx = ctx;
+        this.queryArgs = queryArgs;
     }
-
 
     @Override
     public final Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -53,40 +57,21 @@ public abstract class CupboardLoaderCallback<T extends Enum<T>, R>
     public Loader onCreateLoader(final Enum<T> loaderId) {
         // TODO: Parameter-Handling ueberlegen
 
-        final UriMatcherContract contract = EnumTool.withEnum(loaderId).annotation(UriMatcherContract.class);
+        final UriMatcherContract contract = UriMatcherContractUtil.load(loaderId);
         final QueryContract query = contract.operations().query();
 
         final Uri uriCall = ContractUriUtil.createQuery(loaderId);
 
         final String[] projection = query.projection();
         final String selection = query.selection();
-        final String[] selectionArgs = null;
+
+        final String[] selectionArgs = SelectionArgsTool.merge(queryArgs, query.args());
         final String sortOrder = query.orderBy();
 
         return new CursorLoader(
                 ctx, uriCall, projection, selection,
                 selectionArgs, sortOrder);
     }
-
-    /*
-    protected String[] projection(final UriMatcherContract def) {
-        final List<String> names = new ArrayList<>();
-
-        for( final Field field : def.type().getFields() ) {
-            if( isEntityField(field) ) {
-                names.add(field.getName());
-            }
-        }
-
-        final String[] rval = new String[ names.size() ];
-        return names.toArray(rval);
-    }
-    */
-
-    private boolean isEntityField(final Field field) {
-        return (field.isAccessible() && !field.isSynthetic());
-    }
-
 
     @Override
     public final void onLoadFinished(final Loader<Cursor> loader,

@@ -7,6 +7,8 @@ import com.touchableheroes.drafts.db.cupboard.xt.loader.impl.KeyValue;
  */
 public interface Loader<L, C> {
 
-    public void load(final Enum loaderId, final C callbacks, final KeyValue... vars);
+    public void load(final Enum loaderId,
+                     final C callbacks,
+                     final KeyValue... vars);
 
 }

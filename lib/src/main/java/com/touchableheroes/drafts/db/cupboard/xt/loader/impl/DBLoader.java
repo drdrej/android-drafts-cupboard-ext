@@ -9,7 +9,8 @@ import com.touchableheroes.drafts.db.cupboard.xt.loader.Loader;
 /**
  * Created by asiebert on 26.02.16.
  */
-public class DBLoader implements Loader<LoaderManager, LoaderManager.LoaderCallbacks> {
+public class DBLoader
+       implements Loader<LoaderManager, LoaderManager.LoaderCallbacks> {
 
     private final LoaderManager mgr;
 
@@ -21,8 +22,9 @@ public class DBLoader implements Loader<LoaderManager, LoaderManager.LoaderCallb
     public void load(final Enum loaderId,
                      final LoaderManager.LoaderCallbacks callbacks,
                      final KeyValue... vars ) {
-        Bundle bundle = new Bundle();
 
+        // TODO: fill from KeyValue Pairs...
+        final Bundle bundle = new Bundle();
         mgr.initLoader(loaderId.ordinal(), bundle, callbacks);
     }
 
