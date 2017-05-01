@@ -57,7 +57,7 @@ public class DbConfig {
     }
 
 
-    public static DbConfig from(final Class<Enum> apiContract) {
+    public static DbConfig from(final Class<? extends Enum> apiContract) {
         final DbContract db = EnumTool.withEnum(apiContract).annotation(DbContract.class);
         return new DbConfig( db.name(), db.version(), db.entities(), apiContract );
     }
