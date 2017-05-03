@@ -14,7 +14,7 @@ import com.touchableheroes.drafts.db.cupboard.xt.contracts.SQliteTypeContract;
  * Created by asiebert on 02.05.2017.
  */
 
-public class ConverterCursorList<T extends Enum> extends CursorList {
+public class ConverterCursorList<T extends Enum> extends CursorList<Structure<T>> {
 
     private final Class<T> projection;
 
@@ -54,4 +54,5 @@ public class ConverterCursorList<T extends Enum> extends CursorList {
 
         return rval;
     }
+
 }

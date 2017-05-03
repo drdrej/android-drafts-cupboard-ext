@@ -10,6 +10,9 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.ProviderTestCase2;
 
 import com.touchableheroes.drafts.core.logger.Tracer;
+import com.touchableheroes.drafts.core.obj.Structure;
+import com.touchableheroes.drafts.db.cupboard.xt.cursor.ConverterCursorList;
+import com.touchableheroes.drafts.db.cupboard.xt.cursor.CursorList;
 import com.touchableheroes.drafts.db.cupboard.xt.util.ContentValuesUtil;
 import com.touchableheroes.drafts.db.cupboard.xt.util.ContractUriUtil;
 import com.touchableheroes.drafts.db.cupboard.xt.loader.UriTemplate;
@@ -213,6 +216,36 @@ public class ExampleCupboardContentProviderTest
 
         assertEquals( "Size of Entries in List:", results.size(), 1 );
         assertEquals( "Name of entry: ", results.get(0).name, entity.name);
+    }
+
+
+    @Test
+    public void testCursorList(){
+        final ExampleCupboardContentProvider provider = getProvider();
+
+        final Uri insertUri = ContractUriUtil.createInsert(ExampleUris.ENTITY);
+
+        final ExampleEntity entity = new ExampleEntity();
+        entity._id = System.currentTimeMillis();
+        entity.name = "testInsertQueryById";
+
+        final ContentValues values = ContentValuesUtil.entityToContentValues(entity);
+
+        provider.insert(insertUri, values);
+
+        final UriTemplate uriTemplate =  ContractUriUtil.uriByState( ExampleUris.ENTITIES );
+        final Uri uriCall = uriTemplate.create();
+
+        final Cursor result = provider.query(uriCall, null, null, null, null);
+        assertNotNull( result );
+
+        final ConverterCursorList<ExampleEntity2> resultsList = new ConverterCursorList<>(result, ExampleEntity2.class);
+        assertEquals( resultsList.size(), 1 );
+
+        Structure<ExampleEntity2> firstEntity = resultsList.get(0);
+        assertNotNull( firstEntity );
+        assertEquals( firstEntity.get( ExampleEntity2.name ), entity.name );
+        assertEquals( firstEntity.get( ExampleEntity2._id ), entity._id );
     }
 
 }
