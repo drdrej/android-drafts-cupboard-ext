@@ -19,7 +19,7 @@ import com.touchableheroes.drafts.db.cupboard.xt.defaults.NoDataCursor;
 import com.touchableheroes.drafts.db.cupboard.xt.commands.QueryCommand;
 import com.touchableheroes.drafts.db.cupboard.xt.commands.InsertCommand;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContract;
-import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContractUtil;
+import com.touchableheroes.drafts.db.cupboard.xt.util.UriMatcherContractUtil;
 
 import java.lang.reflect.Constructor;
 

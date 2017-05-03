@@ -30,6 +30,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.0.1'
     testCompile 'junit:junit:4.12'
 
-    compile 'com.github.drdrej:drafts-core:0.0.7'
+    compile 'com.github.drdrej:drafts-core:0.0.9'
     compile 'nl.qbusict:cupboard:2.2.0'
 }

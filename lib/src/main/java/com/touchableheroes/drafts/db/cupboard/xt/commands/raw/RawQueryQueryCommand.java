@@ -9,7 +9,7 @@ import com.touchableheroes.drafts.db.cupboard.xt.defaults.NoDataCursor;
 import com.touchableheroes.drafts.db.cupboard.xt.commands.QueryCommand;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.QueryContract;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContract;
-import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContractUtil;
+import com.touchableheroes.drafts.db.cupboard.xt.util.UriMatcherContractUtil;
 
 /**
  * Created by asiebert on 27.04.2017.

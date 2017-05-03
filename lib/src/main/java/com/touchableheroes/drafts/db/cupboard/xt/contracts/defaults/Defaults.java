@@ -1,14 +1,21 @@
-package com.touchableheroes.drafts.db.cupboard.xt.contracts;
+package com.touchableheroes.drafts.db.cupboard.xt.contracts.defaults;
 
-import com.touchableheroes.drafts.core.tools.EnumTool;
+import com.touchableheroes.drafts.db.cupboard.xt.contracts.DeleteContract;
+import com.touchableheroes.drafts.db.cupboard.xt.contracts.InsertContract;
+import com.touchableheroes.drafts.db.cupboard.xt.contracts.QueryContract;
+import com.touchableheroes.drafts.db.cupboard.xt.contracts.SQliteTypeContract;
+import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContract;
+import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriOperation;
+import com.touchableheroes.drafts.db.cupboard.xt.cursor.mapping.SQLiteTypeMapping;
+import com.touchableheroes.drafts.db.cupboard.xt.cursor.mapping.StringSQLiteTypeMapping;
 
 import java.lang.annotation.Annotation;
 
 /**
- * Created by asiebert on 28.04.2017.
+ * Created by asiebert on 03.05.2017.
  */
 
-public class UriMatcherContractUtil {
+public class Defaults {
 
     public static final UriOperation DEFAULT_OPERATIONS = new UriOperation() {
 
@@ -57,12 +64,17 @@ public class UriMatcherContractUtil {
                 }
             };
 
-    public static UriMatcherContract load( final Enum uriEnum ) {
-        final UriMatcherContract contract = EnumTool.withEnum(uriEnum).annotation(UriMatcherContract.class);
+    public static final SQliteTypeContract DEFAULT_SQLITE_TYPE_MAPPING = new SQliteTypeContract() {
 
-        if( contract == null )
-            return DEFAULT_URI_CONTRACT;
+        @Override
+        public Class<? extends Annotation> annotationType() {
+            return SQliteTypeContract.class;
+        }
 
-        return contract;
-    }
+        @Override
+        public Class<? extends SQLiteTypeMapping> type() {
+            return StringSQLiteTypeMapping.class;
+        }
+    };
+
 }
