@@ -8,9 +8,6 @@ import com.touchableheroes.drafts.db.cupboard.xt.contracts.defaults.Defaults;
 import com.touchableheroes.drafts.db.cupboard.xt.cursor.mapping.SQLiteTypeMapping;
 import com.touchableheroes.drafts.db.cupboard.xt.cursor.mapping.SQLiteTypeMappingManager;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.SQliteTypeContract;
-import com.touchableheroes.drafts.db.cupboard.xt.cursor.mapping.StringSQLiteTypeMapping;
-
-import java.lang.annotation.Annotation;
 
 
 /**

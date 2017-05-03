@@ -27,10 +27,10 @@ public abstract class QueryCommand {
     /*
     public abstract Cursor exec(final Enum contract,
                        final Uri uri,
-                       final String[] projection,
-                       final String selection,
-                       final String[] selectionArgs,
-                       final String sortOrder
+                       final StringSQLite[] projection,
+                       final StringSQLite selection,
+                       final StringSQLite[] selectionArgs,
+                       final StringSQLite sortOrder
     );
     */
 

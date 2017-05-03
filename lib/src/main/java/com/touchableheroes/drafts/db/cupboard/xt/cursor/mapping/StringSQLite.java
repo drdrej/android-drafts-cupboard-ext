@@ -5,16 +5,16 @@ import android.database.Cursor;
 /**
  * Created by asiebert on 02.05.2017.
  */
-public class StringSQLiteTypeMapping
-        extends SQLiteTypeMapping<String> {
+public class StringSQLite
+        extends SQLiteTypeMapping<java.lang.String> {
 
     @Override
-    public String to( final Cursor value,
-                      final int index ) {
+    public java.lang.String to(final Cursor value,
+                               final int index ) {
         return get(value, index);
     }
 
-    private String get(Cursor value, int index) {
+    private java.lang.String get(Cursor value, int index) {
         if( value != null )
             return value.getString( index );
         else

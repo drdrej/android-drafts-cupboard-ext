@@ -7,7 +7,7 @@ import com.touchableheroes.drafts.db.cupboard.xt.contracts.SQliteTypeContract;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContract;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriOperation;
 import com.touchableheroes.drafts.db.cupboard.xt.cursor.mapping.SQLiteTypeMapping;
-import com.touchableheroes.drafts.db.cupboard.xt.cursor.mapping.StringSQLiteTypeMapping;
+import com.touchableheroes.drafts.db.cupboard.xt.cursor.mapping.StringSQLite;
 
 import java.lang.annotation.Annotation;
 
@@ -59,7 +59,7 @@ public class Defaults {
                 }
 
                 @Override
-                public String mimeType() {
+                public java.lang.String mimeType() {
                     return "";
                 }
             };
@@ -73,7 +73,7 @@ public class Defaults {
 
         @Override
         public Class<? extends SQLiteTypeMapping> type() {
-            return StringSQLiteTypeMapping.class;
+            return StringSQLite.class;
         }
     };
 
