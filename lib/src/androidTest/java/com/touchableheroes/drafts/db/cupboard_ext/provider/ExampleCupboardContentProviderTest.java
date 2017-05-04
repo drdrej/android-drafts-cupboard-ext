@@ -65,7 +65,7 @@ public class ExampleCupboardContentProviderTest
         final String[] projection = null; // projection(def); // --> Map auf die Entity
 
         // TODO: Parameter-Handling ueberlegen
-        // TODO: Loader-Aufruf an der richtigen Stelle einbauen! (nicht hier :) im Fragment)
+        // TODO: ContractLoader-Aufruf an der richtigen Stelle einbauen! (nicht hier :) im Fragment)
         // ! mache hier bewusst einen kaputten code rein, damit ich die stelle wieder finde.
 
         String selection = null; // --> where-Params
@@ -110,7 +110,7 @@ public class ExampleCupboardContentProviderTest
         final String[] projection = null; // projection(def); // --> Map auf die Entity
 
         // TODO: Parameter-Handling ueberlegen
-        // TODO: Loader-Aufruf an der richtigen Stelle einbauen! (nicht hier :) im Fragment)
+        // TODO: ContractLoader-Aufruf an der richtigen Stelle einbauen! (nicht hier :) im Fragment)
         // ! mache hier bewusst einen kaputten code rein, damit ich die stelle wieder finde.
 
         String selection = null; // --> where-Params

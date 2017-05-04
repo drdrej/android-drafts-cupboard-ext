@@ -24,15 +24,14 @@ import static android.support.v4.app.LoaderManager.LoaderCallbacks;
  *
  * Created by asiebert on 27.02.16.
  */
-public abstract class CupboardLoaderCallback<T extends Enum<T>, R>
+public abstract class ContractLoaderCallback<T extends Enum<T>, R>
         implements LoaderCallbacks<Cursor> {
-
 
     private final T type;
     private final Context ctx;
     private final String[] queryArgs;
 
-    public CupboardLoaderCallback(final T type,
+    public ContractLoaderCallback(final T type,
                                   final Context ctx,
                                   final String[] queryArgs) {
         this.type  = type;
@@ -41,9 +40,12 @@ public abstract class CupboardLoaderCallback<T extends Enum<T>, R>
     }
 
     @Override
-    public final Loader<Cursor> onCreateLoader(int id, Bundle args) {
+    public final Loader<Cursor> onCreateLoader(
+            final int id,
+            final Bundle args) {
+
         if( type.ordinal() != id ) {
-            throw new UnsupportedOperationException( "Loader and Callback needs to supports the same id (check passed enum)" );
+            throw new UnsupportedOperationException( "ContractLoader and Callback needs to supports the same id (check passed enum)" );
         }
 
         return onCreateLoader(type);
@@ -71,12 +73,11 @@ public abstract class CupboardLoaderCallback<T extends Enum<T>, R>
     @Override
     public final void onLoadFinished(final Loader<Cursor> loader,
                                      final Cursor data) {
-
-        final CursorIteratorConverter<R> rval = new CursorIteratorConverter<R>(data);
-        onLoadFinished(rval);
+        // final CursorIteratorConverter<R> rval = new CursorIteratorConverter<R>(data);
+        onLoadFinished((R) data);
     }
 
-    public abstract void onLoadFinished( final CursorIteratorConverter<R> data );
+    public abstract void onLoadFinished( final R data );
 
     @Override
     public final void onLoaderReset(final Loader<Cursor> loader) {
@@ -85,4 +86,7 @@ public abstract class CupboardLoaderCallback<T extends Enum<T>, R>
 
     public abstract void onLoaderReset();
 
+    public T getContract() {
+        return type;
+    }
 }
