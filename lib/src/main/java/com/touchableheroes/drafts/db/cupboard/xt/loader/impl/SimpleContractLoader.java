@@ -1,5 +1,6 @@
 package com.touchableheroes.drafts.db.cupboard.xt.loader.impl;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 
@@ -13,9 +14,12 @@ public class SimpleContractLoader
        implements ContractLoader {
 
     private final LoaderManager mgr;
+    private final Context ctx;
 
-    public SimpleContractLoader(final LoaderManager mgr ){
+    public SimpleContractLoader(final LoaderManager mgr,
+                                final Context ctx){
         this.mgr = mgr;
+        this.ctx = ctx;
     }
 
     @Override
@@ -32,6 +36,9 @@ public class SimpleContractLoader
             }
         }
 */
+
+        callbacks.inject(ctx);
+
         final Enum contract = callbacks.getContract();
         mgr.initLoader(contract.ordinal(), bundle, callbacks);
     }
