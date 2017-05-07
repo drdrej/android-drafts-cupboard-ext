@@ -24,7 +24,7 @@ public class SimpleContractLoader<T extends Enum>
 
     public SimpleContractLoader(final LoaderManager mgr,
                                 final Context ctx,
-                                final Class type){
+                                final Class<T> type){
         this.mgr = mgr;
         this.ctx = ctx;
 
@@ -65,8 +65,6 @@ public class SimpleContractLoader<T extends Enum>
         }
 
         System.err.println( "LOADER [=" + contract + "] restarted." );
-
-
     }
 
     private Bundle toBundle(final KeyValue... vars) {
