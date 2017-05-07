@@ -4,9 +4,12 @@ import android.database.Cursor;
 
 import com.touchableheroes.drafts.db.cupboard.xt.defaults.NoDataCursor;
 
+import java.io.Serializable;
 import java.util.AbstractList;
 
-public abstract class CursorList<E> extends AbstractList<E> {
+public abstract class CursorList<E extends Serializable>
+        extends AbstractList<E>
+        implements Serializable {
 
     private final Cursor cursor;
 
