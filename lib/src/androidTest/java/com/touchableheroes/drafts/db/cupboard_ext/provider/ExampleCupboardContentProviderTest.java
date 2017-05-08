@@ -59,7 +59,7 @@ public class ExampleCupboardContentProviderTest
     public void testQuery(){
         ContentProvider provider = getProvider();
 
-        final UriTemplate uriTemplate =  ContractUriUtil.uriByState( ExampleUris.ENTITIES );
+        final UriTemplate uriTemplate =  ContractUriUtil.uri( ExampleUris.ENTITIES );
         final Uri uriCall = uriTemplate.create();
 
         final String[] projection = null; // projection(def); // --> Map auf die Entity
@@ -104,7 +104,7 @@ public class ExampleCupboardContentProviderTest
         Uri resultUri = provider.insert(insertUri, values);
 
 // request db content:
-        final UriTemplate uriTemplate =  ContractUriUtil.uriByState( ExampleUris.ENTITIES );
+        final UriTemplate uriTemplate =  ContractUriUtil.uri( ExampleUris.ENTITIES );
         final Uri uriCall = uriTemplate.create();
 
         final String[] projection = null; // projection(def); // --> Map auf die Entity
@@ -153,7 +153,7 @@ public class ExampleCupboardContentProviderTest
         final Uri resultUri = provider.insert(insertUri, values);
 
         // request db content:
-        final UriTemplate uriTemplate =  ContractUriUtil.uriByState( ExampleUris.ENTITY );
+        final UriTemplate uriTemplate =  ContractUriUtil.uri( ExampleUris.ENTITY );
         final Uri uriCall = uriTemplate.create();
 
         final Cursor result = provider.query(uriCall, null, null, null, null);
@@ -178,7 +178,7 @@ public class ExampleCupboardContentProviderTest
         final ExampleCupboardContentProvider provider = getProvider();
 
         // request db content:
-        final UriTemplate uriTemplate =  ContractUriUtil.uriByState( ExampleUris.BROKEN_RAW_QUERY );
+        final UriTemplate uriTemplate =  ContractUriUtil.uri( ExampleUris.BROKEN_RAW_QUERY );
         final Uri uriCall = uriTemplate.create();
 
         final Cursor result = provider.query(uriCall, null, null, null, null);
@@ -204,7 +204,7 @@ public class ExampleCupboardContentProviderTest
         }
 
         // request db content:
-        final Uri uriCall =  ContractUriUtil.uriByState( ExampleUris.ENTITY_cupboardbased ).create();
+        final Uri uriCall =  ContractUriUtil.uri( ExampleUris.ENTITY_cupboardbased ).create();
         final Cursor result = provider.query(uriCall, null, null, null, null);
         assertNotNull( result );
 
@@ -233,7 +233,7 @@ public class ExampleCupboardContentProviderTest
 
         provider.insert(insertUri, values);
 
-        final UriTemplate uriTemplate =  ContractUriUtil.uriByState( ExampleUris.ENTITIES );
+        final UriTemplate uriTemplate =  ContractUriUtil.uri( ExampleUris.ENTITIES );
         final Uri uriCall = uriTemplate.create();
 
         final Cursor result = provider.query(uriCall, null, null, null, null);
@@ -248,4 +248,41 @@ public class ExampleCupboardContentProviderTest
         assertEquals( firstEntity.get( ExampleEntity2._id ), entity._id );
     }
 
+
+    @Test
+    public void testDeleteAllCupboardBasedByEntity() {
+        final ExampleCupboardContentProvider provider = getProvider();
+
+        final ExampleEntity entity = new ExampleEntity();
+        entity._id = System.currentTimeMillis();
+        entity.name = "testInsertQueryById";
+
+        {
+            final Uri insertUri = ContractUriUtil.createInsert(ExampleUris.ENTITY_cupboardbased);
+            final ContentValues values = ContentValuesUtil.entityToContentValues(entity);
+            final Uri resultUri = provider.insert(insertUri, values);
+        }
+
+
+        { // check before delete :
+            final Uri uriCall = ContractUriUtil.uri(ExampleUris.ENTITY_cupboardbased).create();
+            final Cursor result = provider.query(uriCall, null, null, null, null);
+            assertNotNull(result);
+            final List<ExampleEntity> results = cupboard().withCursor(result).list(ExampleEntity.class);
+            assertEquals("Size of Entries in List:", results.size(), 1);
+        }
+
+        { // delete
+            final Uri uri = ContractUriUtil.createDelete(ExampleUris.ENTITY_cupboardbased);
+            provider.delete(uri, null, null); // same as: delete all..
+        }
+
+        { // check after delete :
+            final Uri uriCall = ContractUriUtil.uri(ExampleUris.ENTITY_cupboardbased).create();
+            final Cursor result = provider.query(uriCall, null, null, null, null);
+            assertNotNull(result);
+            final List<ExampleEntity> results = cupboard().withCursor(result).list(ExampleEntity.class);
+            assertEquals("Size of Entries in List:", results.size(), 0);
+        }
+    }
 }

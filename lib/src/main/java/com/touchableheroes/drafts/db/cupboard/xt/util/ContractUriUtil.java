@@ -17,7 +17,7 @@ public class ContractUriUtil {
         return "content://" + uri.getClass().getName() + path; /* paragraph.path(); */
     }
 
-    public static UriTemplate uriByState(final Enum uri) {
+    public static UriTemplate uri(final Enum uri) {
         final UriMatcherContract paragraph = EnumTool.withEnum( uri ).annotation(UriMatcherContract.class);
         return new UriTemplate(uriStr(uri, paragraph));
     }
@@ -27,29 +27,20 @@ public class ContractUriUtil {
         final EnumTool.EnumWrapper enumWrapper = EnumTool.withEnum( uri );
         final UriMatcherContract def = enumWrapper.annotation(UriMatcherContract.class);
 
-        final Uri rval = ContractUriUtil.uriByState(uri).create();
+        final Uri rval = ContractUriUtil.uri(uri).create();
 
         return rval;
-
-/*        final Uri resultUri = cupboard()
-                .withContext( getContext() )
-                .put(insertUri, entity);
-*/
-/*
-        ContentValues contentValues = new ContentValues();
-
-        contentValues.put( "_id", 1 );
-        contentValues.put( "name", "Name xa,xa" );
-*/
     }
 
 
     public static Uri createQuery(final Enum uri) {
-        final EnumTool.EnumWrapper enumWrapper = EnumTool.withEnum( uri );
-        final UriMatcherContract def = enumWrapper.annotation(UriMatcherContract.class);
+        final Uri rval = ContractUriUtil.uri(uri).create();
+        return rval;
+    }
 
-        final Uri rval = ContractUriUtil.uriByState(uri).create();
-
+    // TODO: reimpl. maybe wrong idea..
+    public static Uri createDelete(final Enum key) {
+        final Uri rval = ContractUriUtil.uri(key).create();
         return rval;
     }
 }

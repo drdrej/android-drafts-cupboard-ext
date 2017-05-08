@@ -1,9 +1,11 @@
 package com.touchableheroes.drafts.db.cupboard_ext.provider;
 
+import com.touchableheroes.drafts.db.cupboard.xt.commands.cupboard.CupboardBasedDeleteCommand;
 import com.touchableheroes.drafts.db.cupboard.xt.commands.cupboard.CupboardBasedQueryQueryCommand;
 import com.touchableheroes.drafts.db.cupboard.xt.commands.raw.RawQueryQueryCommand;
 import com.touchableheroes.drafts.db.cupboard.xt.commands.cupboard.CupboardBasedInsertCommand;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.DbContract;
+import com.touchableheroes.drafts.db.cupboard.xt.contracts.DeleteContract;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.InsertContract;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.QueryContract;
 import com.touchableheroes.drafts.db.cupboard.xt.contracts.UriMatcherContract;
@@ -37,9 +39,17 @@ public enum ExampleUris {
 
     @UriMatcherContract(
             operations = @UriOperation(
+                    insert = @InsertContract(
+                            entity = ExampleEntity.class,
+                            command = CupboardBasedInsertCommand.class
+                    ),
                     query = @QueryContract(
                             command = CupboardBasedQueryQueryCommand.class,
                             entity = ExampleEntity.class
+                    ),
+                    delete = @DeleteContract(
+                            entity = ExampleEntity.class,
+                            command = CupboardBasedDeleteCommand.class
                     )
             )
     )
