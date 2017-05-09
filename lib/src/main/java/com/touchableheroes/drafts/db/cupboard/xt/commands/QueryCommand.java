@@ -36,6 +36,9 @@ public abstract class QueryCommand {
 
     public abstract Cursor exec(
             final Enum contract,
-            final String[] selectionArgs);
+            final String[] projection,
+            final String selection,
+            final String[] selectionArgs,
+            final String sortOrder);
 
 }

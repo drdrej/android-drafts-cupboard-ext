@@ -74,11 +74,16 @@ public class CupboardContentProvider_query_Test
             final UriTemplate uriTemplate = ContractUriUtil.uri(ExampleUris.ENTITIES);
             final Uri uriCall = uriTemplate.create();
 
-            // final Cursor result = provider.queryById(uriCall, null, null, /* new String[]{ "1" } */ null, null);
+            final Cursor result = provider.query(
+                    uriCall,
+                    null, " _id = ? ",
+                    new String[]{ "1" },
+                    null);
+            /*
             final Cursor result
                     = provider.queryBy(ExampleUris.ENTITIES,
                     new Structure(ByIdSelection.class) );
-
+*/
             assertNotNull(result);
 
             final List<ExampleEntity> results = cupboard().withCursor(result).list(ExampleEntity.class);

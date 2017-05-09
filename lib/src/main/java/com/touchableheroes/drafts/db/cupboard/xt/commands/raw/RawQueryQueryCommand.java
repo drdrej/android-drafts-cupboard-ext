@@ -22,7 +22,7 @@ public class RawQueryQueryCommand extends QueryCommand {
 
     @Override
     public Cursor exec(final Enum contract,
-                       final String[] args) {
+                       String[] projection, String selection, final String[] args, String sortOrder) {
 
         final UriMatcherContract uriMatcherContract = UriMatcherContractUtil.load( contract );
 

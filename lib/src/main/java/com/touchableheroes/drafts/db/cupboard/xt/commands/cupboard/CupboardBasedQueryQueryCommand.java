@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.touchableheroes.drafts.core.logger.Fact;
 import com.touchableheroes.drafts.core.logger.Tracer;
 import com.touchableheroes.drafts.db.cupboard.xt.defaults.NoDataCursor;
 import com.touchableheroes.drafts.db.cupboard.xt.commands.QueryCommand;
@@ -26,25 +27,47 @@ public class CupboardBasedQueryQueryCommand
 
     @Override
     public Cursor exec(final Enum contract,
-                       final String[] selectionArgs ) {
+                       final String[] projection,
+                       final String selection,
+                       final String[] selectionArgs,
+                       final String sortOrder) {
         final SQLiteDatabase db = readble();
 
         final UriMatcherContract uriContract = UriMatcherContractUtil.load( contract );
         final QueryContract query = uriContract.operations().query();
         final Class<? extends Object> clz = query.entity();
 
-        if( clz == Void.class ) { //
-            if( Tracer.isDevMode() ) {
-                throw new IllegalStateException( "Couldn'T execute query, missing entity (is Void.class) in [enum = " + contract.name() + "]" );
-            } else {
-                return new NoDataCursor();
+        Tracer.prove(new Fact() {
+            @Override
+            public void check() {
+                if( clz == Void.class ) { //
+                    if( Tracer.isDevMode() ) {
+                        throw new IllegalStateException( "Couldn'T execute query, missing entity (is Void.class) in [enum = " + contract.name() + "]" );
+                    }
+                }
             }
-        }
+        });
+        /*
+        else {
+                        return new NoDataCursor();
+                    }
+         */
+
+        final QueryParams params = new QueryParams(query,
+                projection,
+                selection,
+                sortOrder
+        );
+
+        String[] p = params.projection();
+        String s = params.selection();
+        String[] a = params.args(selectionArgs);
+        String o = params.orderBy();
 
         return cupboard().withDatabase(db).query(clz).
-                withProjection( query.projection() ).
-                withSelection( query.selection(), selectionArgs).
-                orderBy(query.orderBy()).
+                withProjection( p ).
+                withSelection( s, a ).
+                orderBy( o ).
                 getCursor();
     }
 }

@@ -69,12 +69,15 @@ public abstract class CupboardContentProvider extends ContentProvider {
 
         final Enum contract = identify(uri);
 
-        return query(contract, selectionArgs);
+        return query(contract, null, null, selectionArgs, null);
     }
 
     public Cursor query(
             final Enum contract,
-            final String[] selectionArgs) {
+            final String[] projection,
+            final String selection,
+            final String[] selectionArgs,
+            final String sortOrder) {
         final UriMatcherContract uriMatcher = EnumTool.withEnum(contract).annotation(UriMatcherContract.class);
         final Class<? extends QueryCommand> queryCmdClass = uriMatcher.operations().query().command();
 
@@ -82,18 +85,27 @@ public abstract class CupboardContentProvider extends ContentProvider {
             final Constructor<? extends QueryCommand> constructor = queryCmdClass.getConstructor(SQLiteOpenHelper.class);
             final QueryCommand queryCommand = constructor.newInstance(dbHelper);
 
-            return queryCommand.exec(contract, selectionArgs);
+            return queryCommand.exec(contract, projection, selection, selectionArgs, sortOrder);
         } catch (final Throwable x) {
             throw new IllegalStateException("Couldn't initialize and execute QueryCommand.", x);
         }
     }
 
-    private Cursor queryWithArguments(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+    private Cursor queryWithArguments(
+            final Uri uri,
+            final String[] projection,
+            final String selection,
+            final String[] selectionArgs,
+            final String sortOrder) {
+        /*
         if( Tracer.isDevMode() ) {
             throw new UnsupportedOperationException( "this method is not implemented." );
+                    return new NoDataCursor();
         }
+        */
 
-        return new NoDataCursor();
+        final Enum contract = identify(uri);
+        return query(contract, projection, selection, selectionArgs, sortOrder);
     }
 
     protected boolean hasArguments(final String[] projection,
