@@ -57,19 +57,8 @@ public abstract class CupboardContentProvider extends ContentProvider {
                         final String selection,
                         final String[] selectionArgs,
                         final String sortOrder) {
-        if( hasArguments(projection, selection, sortOrder) ) {
-            return queryWithArguments( uri, projection, selection, selectionArgs, sortOrder);
-        }
-
-        return queryWithUri(uri, selectionArgs);
-    }
-
-    private Cursor queryWithUri(final Uri uri,
-                                final String[] selectionArgs) {
-
         final Enum contract = identify(uri);
-
-        return query(contract, null, null, selectionArgs, null);
+        return query(contract, projection, selection, selectionArgs, sortOrder);
     }
 
     public Cursor query(
@@ -91,33 +80,7 @@ public abstract class CupboardContentProvider extends ContentProvider {
         }
     }
 
-    private Cursor queryWithArguments(
-            final Uri uri,
-            final String[] projection,
-            final String selection,
-            final String[] selectionArgs,
-            final String sortOrder) {
-        /*
-        if( Tracer.isDevMode() ) {
-            throw new UnsupportedOperationException( "this method is not implemented." );
-                    return new NoDataCursor();
-        }
-        */
 
-        final Enum contract = identify(uri);
-        return query(contract, projection, selection, selectionArgs, sortOrder);
-    }
-
-    protected boolean hasArguments(final String[] projection,
-                                   final String selection,
-                                   final String sortOrder) {
-        if(ArrayTool.isEmpty(projection)
-                && StringTool.isEmpty(selection)
-                && StringTool.isEmpty(sortOrder) )
-            return false;
-
-        return true;
-    }
 
     public Enum findEnum(final int matchId) {
         return getConfig().uriById(matchId);
@@ -202,7 +165,7 @@ public abstract class CupboardContentProvider extends ContentProvider {
             final Constructor<? extends DeleteCommand> constructor = cmdClass.getConstructor(SQLiteDatabase.class);
             final DeleteCommand dbCommand = constructor.newInstance(dbHelper.getWritableDatabase());
 
-            return dbCommand.exec(uriEnum, selectionArgs);
+            return dbCommand.exec(uriEnum, selection, selectionArgs);
         } catch (final Throwable x) {
             throw new IllegalStateException("Couldn't initialize and execute QueryCommand.", x);
         }

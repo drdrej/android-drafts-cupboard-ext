@@ -19,5 +19,6 @@ public abstract class DeleteCommand {
     }
 
     public abstract int exec(final Enum uri,
-                     final String[] selectionArgs );
+                             final String selection,
+                             final String[] selectionArgs);
 }

@@ -13,4 +13,6 @@ public @interface DeleteContract {
     Class<? extends DeleteCommand> command();
 
     String selection() default "";
+
+    String[] args() default {};
 }

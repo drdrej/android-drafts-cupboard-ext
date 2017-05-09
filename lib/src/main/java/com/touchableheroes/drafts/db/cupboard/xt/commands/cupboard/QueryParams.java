@@ -8,7 +8,8 @@ import com.touchableheroes.drafts.db.cupboard.xt.contracts.QueryContract;
  * Created by asiebert on 09.05.2017.
  */
 
-public class QueryParams {
+public class QueryParams
+        extends AbstractSelectionParams {
 
     private final QueryContract query;
     private final String[] projection;
@@ -42,43 +43,7 @@ public class QueryParams {
 
     private String createSelection(
             final String selection) {
-        final boolean a1 = StringTool.isEmpty(query.selection());
-        final boolean a2 = StringTool.isEmpty(selection);
-
-        if( a1 && a2 ) {
-            return null;
-        }
-
-        if( a1 && !a2 ) {
-            return selection;
-        }
-
-        if( !a1 && a2 ) {
-            return query.selection();
-        }
-
-        return concat( "(", selection, ") and (", query.selection(), ")" );
-    }
-
-    private String concat(final String... values) {
-        final StringBuilder b = new StringBuilder( 10 );
-
-        int co = 0;
-        for ( final String val : values ) {
-            if( co > 0 ) {
-                b.append( " " );
-            }
-
-            if( val != null ) {
-                b.append( val );
-            }
-
-            b.append( " " );
-
-            co++;
-        }
-
-        return b.toString();
+        return super.createSelection(query.selection(), selection);
     }
 
     private String[] mergeProjection(final String[] dynamic) {
@@ -102,13 +67,7 @@ public class QueryParams {
     }
 
     public String[] args(final String[] args) {
-        if( !ArrayTool.isEmpty(args) )
-            return args;
-
-        if( !ArrayTool.isEmpty(query.args()))
-            return query.args();
-
-        return null;
+        return createArgs(query.args(), args);
     }
 
     public String orderBy() {

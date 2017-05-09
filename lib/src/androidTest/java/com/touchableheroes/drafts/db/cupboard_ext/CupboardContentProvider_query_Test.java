@@ -60,7 +60,7 @@ public class CupboardContentProvider_query_Test
 
         { // prepare data set / insert entities:
             final ExampleEntity e1 = createEntity(1);
-            final Uri insertUri = ContractUriUtil.createInsert(ExampleUris.ENTITY);
+            final Uri insertUri = ContractUriUtil.createInsert(ExampleUris.ENTITY_cupboardbased);
 
             provider.insert(insertUri,
                     ContentValuesUtil.entityToContentValues(e1));
@@ -71,7 +71,7 @@ public class CupboardContentProvider_query_Test
         }
 
         { // request where id = 1 as selection parameter
-            final UriTemplate uriTemplate = ContractUriUtil.uri(ExampleUris.ENTITIES);
+            final UriTemplate uriTemplate = ContractUriUtil.uri(ExampleUris.ENTITY_cupboardbased);
             final Uri uriCall = uriTemplate.create();
 
             final Cursor result = provider.query(
@@ -96,6 +96,31 @@ public class CupboardContentProvider_query_Test
 
             final ExampleEntity e1 = createEntity(1);
             assertEquals("Name of entry: ", results.get(0).name, e1.name);
+        }
+
+        { // delete where id = 1 as selection parameter
+            final Uri uri = ContractUriUtil.createDelete(ExampleUris.ENTITY_cupboardbased);
+            final int result = provider.delete(uri,
+                    " _id = ? ",
+                    new String[]{ "1" });
+
+            assertEquals(result, 1);
+        }
+
+        { // request after delete, where id = 1 as selection parameter
+            final UriTemplate uriTemplate = ContractUriUtil.uri(ExampleUris.ENTITY_cupboardbased);
+            final Uri uriCall = uriTemplate.create();
+
+            final Cursor result = provider.query(
+                    uriCall,
+                    null, " _id = ? ",
+                    new String[]{ "1" },
+                    null);
+
+            assertNotNull(result);
+
+            final List<ExampleEntity> results = cupboard().withCursor(result).list(ExampleEntity.class);
+            assertEquals("Size of Entries in List:", results.size(), 0);
         }
     }
 
