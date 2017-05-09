@@ -6,11 +6,10 @@ package com.touchableheroes.drafts.db.cupboard.xt.contracts;
 
 public @interface DbContract {
 
-    String name();
     int version();
 
     Class[] entities();
 
-    // Class<? extends Enum>[] entities() default {};
+    //TODO: Class<? extends Enum>[] entities() default {};
 
 }

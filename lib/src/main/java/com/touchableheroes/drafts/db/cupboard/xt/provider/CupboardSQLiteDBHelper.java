@@ -35,7 +35,7 @@ public class CupboardSQLiteDBHelper extends SQLiteOpenHelper {
         final DbContract dbContract = EnumTool.withEnum(type).annotation(DbContract.class);
 
         return new DbConfig(
-                dbContract.name(),
+                type.getName(),
                 dbContract.version(),
                 dbContract.entities(),
                 type
