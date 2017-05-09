@@ -1,4 +1,4 @@
-package com.touchableheroes.drafts.db.cupboard_ext.provider;
+package com.touchableheroes.drafts.db.cupboard_ext;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
@@ -16,6 +16,10 @@ import com.touchableheroes.drafts.db.cupboard.xt.cursor.CursorList;
 import com.touchableheroes.drafts.db.cupboard.xt.util.ContentValuesUtil;
 import com.touchableheroes.drafts.db.cupboard.xt.util.ContractUriUtil;
 import com.touchableheroes.drafts.db.cupboard.xt.loader.UriTemplate;
+import com.touchableheroes.drafts.db.cupboard_ext.provider.ExampleCupboardContentProvider;
+import com.touchableheroes.drafts.db.cupboard_ext.provider.ExampleEntity;
+import com.touchableheroes.drafts.db.cupboard_ext.provider.ExampleEntity2;
+import com.touchableheroes.drafts.db.cupboard_ext.provider.ExampleUris;
 
 import org.junit.Before;
 import org.junit.Test;

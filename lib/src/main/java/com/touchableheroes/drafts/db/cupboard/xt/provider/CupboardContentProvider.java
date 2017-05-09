@@ -10,6 +10,7 @@ import android.net.Uri;
 
 
 import com.touchableheroes.drafts.core.logger.Tracer;
+import com.touchableheroes.drafts.core.obj.Structure;
 import com.touchableheroes.drafts.core.tools.ArrayTool;
 import com.touchableheroes.drafts.core.tools.EnumTool;
 import com.touchableheroes.drafts.core.tools.StringTool;
@@ -197,6 +198,11 @@ public abstract class CupboardContentProvider extends ContentProvider {
 
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+        throw new UnsupportedOperationException();
+    }
+
+    public /* abstract */ Cursor queryBy(final Enum key,
+                                   final Structure param) {
         throw new UnsupportedOperationException();
     }
 
